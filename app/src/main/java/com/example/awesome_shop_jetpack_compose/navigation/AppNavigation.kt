@@ -1,10 +1,6 @@
 package com.example.awesome_shop_jetpack_compose.navigation
 
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
