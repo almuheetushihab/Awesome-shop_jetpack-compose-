@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Awesome-shop_jetpack-compose</string>
+    <string name="hide_password">hide pass</string>
+    <string name="show_password">show pass</string>
+    <string name="name_length_error">Full Name must contain at least three characters</string>
+    <string name="user_length_error">Username must be at least 3 characters long</string>
+    <string name="name_spacing_error">Full Name cannot contain only spaces</string>
+    <string name="password_length_error">Password must be at least 6 characters long</string>
+    <string name="name_digit_error">Full Name cannot contain numbers\n</string>
+    <string name="login_failed_error">Please fill in all fields</string>
+    <string name="login">Login</string>
+</resources>
