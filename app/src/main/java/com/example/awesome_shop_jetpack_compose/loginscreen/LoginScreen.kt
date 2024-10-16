@@ -35,12 +35,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.awesome_shop_jetpack_compose.R
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var fullName by rememberSaveable { mutableStateOf("") }
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -275,10 +276,9 @@ fun LoginScreen() {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp)
         )
-
         TextButton(
             onClick = {
-                Toast.makeText(context, "Sign Up Clicked", Toast.LENGTH_SHORT).show()
+                navController.navigate("signup_screen")
             },
             modifier = Modifier.size(100.dp, 40.dp)
         ) {
@@ -323,6 +323,6 @@ fun validateFields(
 @Composable
 fun LoginScreensPreview() {
     Awesomeshop_jetpackcomposeTheme {
-        LoginScreen()
+        LoginScreen(navController = NavController(context = LocalContext.current))
     }
 }

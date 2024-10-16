@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -32,19 +34,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.awesome_shop_jetpack_compose.R
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(navController: NavController) {
     var fullName by rememberSaveable { mutableStateOf("") }
     var userName by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var confirmPassword by rememberSaveable { mutableStateOf("") }
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+    var confirmPasswordVisible by rememberSaveable { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
@@ -162,7 +172,17 @@ fun SignUpScreen() {
                     shape = RoundedCornerShape(12.dp)
                 ),
             singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        painter = painterResource(id = if (passwordVisible) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_off_24),
+                        contentDescription = if (passwordVisible) stringResource(id = R.string.hide_password) else stringResource(
+                            id = R.string.show_password
+                        )
+                    )
+                }
+            },
             colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,
@@ -197,7 +217,17 @@ fun SignUpScreen() {
                     shape = RoundedCornerShape(12.dp)
                 ),
             singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
+            visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
+                    Icon(
+                        painter = painterResource(id = if (confirmPasswordVisible) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_off_24),
+                        contentDescription = if (confirmPasswordVisible) stringResource(id = R.string.hide_password) else stringResource(
+                            id = R.string.show_password
+                        )
+                    )
+                }
+            },
             colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,
@@ -227,8 +257,9 @@ fun SignUpScreen() {
             Text(
                 text = "Login", fontWeight = FontWeight.Bold, color = Color.Blue,
                 modifier = Modifier.clickable {
-                    Toast.makeText(context, "Navigate to Login", Toast.LENGTH_SHORT).show()
-
+                    navController.navigate("login_screen") {
+                        popUpTo("signup_screen") { inclusive = true }
+                    }
                 }
             )
         }
@@ -238,5 +269,5 @@ fun SignUpScreen() {
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignUpScreen(navController = NavController(LocalContext.current))
 }

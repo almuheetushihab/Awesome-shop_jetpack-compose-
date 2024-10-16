@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.awesome_shop_jetpack_compose.loginscreen.LoginScreen
+import com.example.awesome_shop_jetpack_compose.navigation.AppNavigation
 import com.example.awesome_shop_jetpack_compose.signupscreen.SignUpScreen
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,21 +25,19 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ){
-                    LoginScreen()
-                    SignUpScreen()
+                ) {
+
+                    AppNavigation()
                 }
             }
         }
     }
 }
 
-
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun AwesomeShopPreview() {
     Awesomeshop_jetpackcomposeTheme {
-        SignUpScreen()
+        AppNavigation()
     }
 }
