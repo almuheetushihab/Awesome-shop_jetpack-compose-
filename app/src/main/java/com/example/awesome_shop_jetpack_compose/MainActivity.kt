@@ -5,15 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.awesome_shop_jetpack_compose.loginscreen.LoginScreen
+import com.example.awesome_shop_jetpack_compose.signupscreen.SignUpScreen
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,6 +25,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ){
                     LoginScreen()
+                    SignUpScreen()
                 }
             }
         }
@@ -39,6 +38,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     Awesomeshop_jetpackcomposeTheme {
-        LoginScreen()
+        SignUpScreen()
     }
 }
