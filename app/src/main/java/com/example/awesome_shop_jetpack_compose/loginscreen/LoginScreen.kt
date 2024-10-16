@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,13 +34,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.awesome_shop_jetpack_compose.R
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen() {
     var fullName by rememberSaveable { mutableStateOf("") }
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -53,8 +51,7 @@ fun LoginScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(scrollState)
-            .imePadding(),
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -62,10 +59,10 @@ fun LoginScreen(navController: NavController) {
             contentDescription = "Logo",
             modifier = Modifier
                 .size(120.dp)
-                .padding(top = 30.dp)
+                .padding(top = 24.dp)
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "Awesome\nShop",
@@ -75,33 +72,14 @@ fun LoginScreen(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(40.dp))
 
-        Text(
-            text = "Full Name",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
-
-        )
-
-
         OutlinedTextField(
             value = fullName,
             onValueChange = { fullName = it },
-            placeholder = { Text("Enter your full name") },
+            label = { Text("Full Name") },
             modifier = Modifier
                 .fillMaxWidth()
-                .border(
-                    width = 1.dp,
-                    color = Color.Transparent,
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .background(
-                    color = Color.Gray.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(12.dp)
-                ),
+                .border(1.dp, Color.Transparent)
+                .background(Color.Gray.copy(alpha = 0.2f)),
             singleLine = true,
             colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = Color.Transparent,
@@ -109,36 +87,15 @@ fun LoginScreen(navController: NavController) {
                 unfocusedBorderColor = Color.Transparent
             )
         )
-
-
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            text = "Username",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
-
-        )
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
-            placeholder = { Text("Enter your username") },
-
+            label = { Text("Username") },
             modifier = Modifier
                 .fillMaxWidth()
-                .border(
-                    width = 1.dp,
-                    color = Color.Transparent,
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .background(
-                    color = Color.Gray.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(12.dp)
-                ),
+                .background(Color.Gray.copy(alpha = 0.2f)),
             singleLine = true,
             colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = Color.Transparent,
@@ -146,42 +103,22 @@ fun LoginScreen(navController: NavController) {
                 unfocusedBorderColor = Color.Transparent
             )
         )
+        Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            text = "Password",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
-
-        )
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            placeholder = { Text("Enter your password") },
+            label = { Text("Password") },
             modifier = Modifier
                 .fillMaxWidth()
-                .border(
-                    width = 1.dp,
-                    color = Color.Transparent,
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .background(
-                    color = Color.Gray.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(12.dp)
-                ),
+                .background(Color.Gray.copy(alpha = 0.2f)),
             singleLine = true,
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         painter = painterResource(id = if (passwordVisible) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_off_24),
-                        contentDescription = if (passwordVisible) stringResource(id = R.string.hide_password) else stringResource(
-                            id = R.string.show_password
-                        )
+                        contentDescription = if (passwordVisible) stringResource(id = R.string.hide_password) else stringResource(id = R.string.show_password)
                     )
                 }
             },
@@ -196,17 +133,17 @@ fun LoginScreen(navController: NavController) {
 
 
         Row(
-            modifier = Modifier.fillMaxWidth().height(34.dp),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
             TextButton(onClick = {
                 Toast.makeText(context, "Forgot Password Clicked", Toast.LENGTH_SHORT).show()
             }) {
-                Text(text = "Forgot Password?", color = Color.Blue, fontSize = 12.sp)
+                Text(text = "Forgot Password?", color = Color.Blue)
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = {
@@ -234,31 +171,21 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Absolute.Center
         ) {
-            IconButton(onClick = {
-                Toast.makeText(context, "Facebook Clicked", Toast.LENGTH_SHORT).show()
-            }) {
+            IconButton(onClick = { Toast.makeText(context, "Facebook Clicked", Toast.LENGTH_SHORT).show() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.facebook_brands_solid),
                     contentDescription = "Facebook",
                     tint = Color.Blue
                 )
             }
-            IconButton(onClick = {
-                Toast.makeText(context, "Twitter Clicked", Toast.LENGTH_SHORT).show()
-            }) {
+            IconButton(onClick = { Toast.makeText(context, "Twitter Clicked", Toast.LENGTH_SHORT).show() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.square_twitter_brands_solid),
                     contentDescription = "Twitter",
                     tint = colorResource(R.color.twitter_blue)
                 )
             }
-            IconButton(onClick = {
-                Toast.makeText(
-                    context,
-                    "Google Plus Clicked",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }) {
+            IconButton(onClick = { Toast.makeText(context, "Google Plus Clicked", Toast.LENGTH_SHORT).show() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.google_plus_brands_solid),
                     contentDescription = "Google Plus",
@@ -267,7 +194,7 @@ fun LoginScreen(navController: NavController) {
             }
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(50.dp))
 
         Text(
             text = "Or Sign Up Using",
@@ -276,9 +203,10 @@ fun LoginScreen(navController: NavController) {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp)
         )
+
         TextButton(
             onClick = {
-                navController.navigate("signup_screen")
+                Toast.makeText(context, "Sign Up Clicked", Toast.LENGTH_SHORT).show()
             },
             modifier = Modifier.size(100.dp, 40.dp)
         ) {
@@ -294,26 +222,19 @@ fun validateFields(
     context: Context
 ): Boolean {
     if (fullName.isEmpty() || fullName.any { it.isDigit() } || fullName.trim().isEmpty()) {
-        Toast.makeText(context, context.getString(R.string.login_failed_error), Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(context, context.getString(R.string.login_failed_error), Toast.LENGTH_SHORT).show()
         return false
     }
     if (fullName.length < 3) {
-        Toast.makeText(context, context.getString(R.string.name_length_error), Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(context, context.getString(R.string.name_length_error), Toast.LENGTH_SHORT).show()
         return false
     }
     if (username.length < 3) {
-        Toast.makeText(context, context.getString(R.string.user_length_error), Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(context, context.getString(R.string.user_length_error), Toast.LENGTH_SHORT).show()
         return false
     }
     if (password.length < 6) {
-        Toast.makeText(
-            context,
-            context.getString(R.string.password_length_error),
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(context, context.getString(R.string.password_length_error), Toast.LENGTH_SHORT).show()
         return false
     }
     return true
@@ -323,6 +244,6 @@ fun validateFields(
 @Composable
 fun LoginScreensPreview() {
     Awesomeshop_jetpackcomposeTheme {
-        LoginScreen(navController = NavController(context = LocalContext.current))
+        LoginScreen()
     }
 }
