@@ -2,6 +2,8 @@ package com.example.awesome_shop_jetpack_compose.homescreen
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.ColumnScopeInstance.align
+import androidx.compose.foundation.layout.FlowColumnScopeInstance.align
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,12 +15,23 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
@@ -29,16 +42,25 @@ fun HomeScreenWithAppBar() {
     Scaffold(
         topBar = {
             SmallTopAppBar(
-                title = { Text("Awesome Shop")},
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "Awesome Shop", textAlign = TextAlign.Center, fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                    }
+                },
                 actions = {
                     IconButton(onClick = {  }) {
-                        Icon(Icons.Filled.MoreVert, contentDescription = "Settings")
+                        Icon(Icons.Filled.MoreVert, contentDescription = "Settings", tint = Color.White)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = Color(0xFF6200EE)
+                )
             )
         }
     ) { paddingValues ->
-
         HomeScreen(navController = rememberNavController(), modifier = Modifier.padding(paddingValues))
     }
 }
@@ -46,6 +68,8 @@ fun HomeScreenWithAppBar() {
 
 @Composable
 fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
+    var selectedTabIndex by remember { mutableStateOf(0) }
+    val tabTitles = listOf("Category 1", "Category 2", "Category 3")
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -54,28 +78,29 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
     ) {
 
         Text(
-            text = "Welcome",
+            text = "Welcome,",
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp, top = 16.dp)
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
         )
 
 
-        Text(
-            text = "Categories",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(bottom = 16.dp)
-        ) {
-            items(10) { categoryIndex ->
-                CategoryItem(categoryIndex)
+        TabRow(selectedTabIndex = selectedTabIndex) {
+            tabTitles.forEachIndexed { index, title ->
+                Tab(
+                    selected = selectedTabIndex == index,
+                    onClick = { selectedTabIndex = index },
+                    text = { Text(title)}
+                )
             }
         }
 
+        when (selectedTabIndex) {
+            0 -> CategoryContent(1)
+            1 -> CategoryContent(2)
+            2 -> CategoryContent(3)
+        }
 
         Text(
             text = "Products",
@@ -98,13 +123,31 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun CategoryContent(categoryIndex: Int) {
+    Text(
+        text = "Categories for Category $categoryIndex",
+        style = MaterialTheme.typography.titleMedium,
+        modifier = Modifier.padding(bottom = 8.dp)
+    )
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(bottom = 16.dp)
+    ) {
+        items(10) { itemIndex ->
+            CategoryItem(itemIndex + (categoryIndex * 10)) // Sample data for categories
+        }
+    }
+}
+
+@Composable
 fun CategoryItem(index: Int) {
     Box(
         modifier = Modifier
             .width(100.dp)
             .border(1.dp, MaterialTheme.colorScheme.outline)
     ) {
-        Text(text = "Category $index" , modifier = Modifier.padding(8.dp))
+        Text(text = "Category $index" , fontSize = 14.sp,textAlign =  TextAlign.Center, modifier = Modifier.padding(8.dp))
     }
 }
 
