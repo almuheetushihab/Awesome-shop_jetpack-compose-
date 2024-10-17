@@ -11,9 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,7 +71,7 @@ fun HomeScreen() {
 fun CategoryItem(index: Int) {
     Box(
         modifier = Modifier
-            .size(100.dp)
+            .width(100.dp)
     ) {
         Text(text = "Category $index")
     }
@@ -88,5 +90,5 @@ fun ProductItem(index: Int) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
-    HomeScreen()
+    HomeScreen(navController = rememberNavController())
 }
