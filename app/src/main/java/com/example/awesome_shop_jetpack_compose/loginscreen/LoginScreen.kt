@@ -248,7 +248,7 @@ fun LoginScreen(navController: NavController) {
         Text(
             text = "Or Sign Up Using",
             fontSize = 14.sp,
-            color = Color.Blue,
+            color = Color.Black,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
@@ -299,7 +299,7 @@ fun LoginScreen(navController: NavController) {
         Text(
             text = "Or Sign Up Using",
             fontSize = 14.sp,
-            color = Color.Blue,
+            color = Color.Black,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp)
         )
