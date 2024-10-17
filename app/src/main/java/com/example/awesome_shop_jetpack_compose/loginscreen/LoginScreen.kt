@@ -105,6 +105,7 @@ fun LoginScreen(navController: NavController) {
                 unfocusedBorderColor = Color.Transparent
             )
         )
+
         if (fullNameError.isNotEmpty()) {
             Text(
                 text = fullNameError,
@@ -309,7 +310,7 @@ fun LoginScreen(navController: NavController) {
 fun validateFullName(fullName: String): String {
     return when {
         fullName.isEmpty() -> ""
-        fullName.isEmpty() || fullName.any { it.isDigit() } -> "Full name should not contain numbers and must not be empty"
+        fullName.isEmpty() || fullName.any { it.isDigit() } -> "Invaild name"
         fullName.length < 3 -> "Full name should be at least 3 characters long"
         else -> ""
     }
