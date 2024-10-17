@@ -77,6 +77,8 @@ fun SignUpScreen(navController: NavController) {
             textAlign = TextAlign.Center
         )
 
+        Spacer(modifier = Modifier.height(24.dp))
+
         Text(
             text = "Full Name",
             fontSize = 16.sp,
@@ -233,7 +235,7 @@ fun SignUpScreen(navController: NavController) {
             )
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Button(
             onClick = {
@@ -251,9 +253,9 @@ fun SignUpScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "Already have an account?", fontSize = 14.sp)
+            Text(text = "Already have an account?", fontSize = 13.sp)
             Text(
-                text = "Login", fontWeight = FontWeight.Bold, color = Color.Blue,
+                text = "Login", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.Blue,
                 modifier = Modifier.clickable {
                     navController.navigate("login_screen") {
                         popUpTo("signup_screen") { inclusive = true }

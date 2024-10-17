@@ -3,9 +3,9 @@ package com.example.awesome_shop_jetpack_compose.loginscreen
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -96,8 +96,10 @@ fun LoginScreen(navController: NavController) {
             placeholder = { Text("Enter your full name") },
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, Color.Transparent)
-                .background(Color.Gray.copy(alpha = 0.2f)),
+                .background(
+                    color = Color.Gray.copy(alpha = 0.2f),
+                    shape = RoundedCornerShape(12.dp)
+                ),
             singleLine = true,
             colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = Color.Transparent,
@@ -136,7 +138,10 @@ fun LoginScreen(navController: NavController) {
             placeholder = { Text("Enter your username") },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Gray.copy(alpha = 0.2f)),
+                .background(
+                    color = Color.Gray.copy(alpha = 0.2f),
+                    shape = RoundedCornerShape(12.dp)
+                ),
             singleLine = true,
             colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = Color.Transparent,
@@ -174,7 +179,10 @@ fun LoginScreen(navController: NavController) {
             placeholder = { Text("Enter your password") },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Gray.copy(alpha = 0.2f)),
+                .background(
+                    color = Color.Gray.copy(alpha = 0.2f),
+                    shape = RoundedCornerShape(12.dp)
+                ),
             singleLine = true,
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
