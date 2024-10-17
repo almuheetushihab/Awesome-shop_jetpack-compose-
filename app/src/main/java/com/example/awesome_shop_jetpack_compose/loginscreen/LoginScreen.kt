@@ -1,11 +1,9 @@
 package com.example.awesome_shop_jetpack_compose.loginscreen
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -65,10 +63,10 @@ fun LoginScreen(navController: NavController) {
             contentDescription = "Logo",
             modifier = Modifier
                 .size(120.dp)
-                .padding(top = 24.dp)
+                .padding(top = 30.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = "Awesome\nShop",
@@ -76,6 +74,7 @@ fun LoginScreen(navController: NavController) {
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
+
         Spacer(modifier = Modifier.height(40.dp))
 
         Text(
@@ -87,9 +86,13 @@ fun LoginScreen(navController: NavController) {
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
+
         OutlinedTextField(
             value = fullName,
-            onValueChange = { fullName = it },
+            onValueChange = {
+                fullName = it
+                fullNameError = validateFullName(it)
+            },
             placeholder = { Text("Enter your full name") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -102,6 +105,14 @@ fun LoginScreen(navController: NavController) {
                 unfocusedBorderColor = Color.Transparent
             )
         )
+        if (fullNameError.isNotEmpty()) {
+            Text(
+                text = fullNameError,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -114,9 +125,13 @@ fun LoginScreen(navController: NavController) {
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
+
         OutlinedTextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = {
+                username = it
+                usernameError = validateUsername(it)
+            },
             placeholder = { Text("Enter your username") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -128,6 +143,14 @@ fun LoginScreen(navController: NavController) {
                 unfocusedBorderColor = Color.Transparent
             )
         )
+        if (usernameError.isNotEmpty()) {
+            Text(
+                text = usernameError,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -140,9 +163,13 @@ fun LoginScreen(navController: NavController) {
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
+
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                password = it
+                passwordError = validatePassword(it)
+            },
             placeholder = { Text("Enter your password") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -153,7 +180,9 @@ fun LoginScreen(navController: NavController) {
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         painter = painterResource(id = if (passwordVisible) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_off_24),
-                        contentDescription = if (passwordVisible) stringResource(id = R.string.hide_password) else stringResource(id = R.string.show_password)
+                        contentDescription = if (passwordVisible) stringResource(id = R.string.hide_password) else stringResource(
+                            id = R.string.show_password
+                        )
                     )
                 }
             },
@@ -164,11 +193,20 @@ fun LoginScreen(navController: NavController) {
             )
         )
 
+        if (passwordError.isNotEmpty()) {
+            Text(
+                text = passwordError,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
         Spacer(modifier = Modifier.height(8.dp))
 
-
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .height(35.dp),
             horizontalArrangement = Arrangement.End
         ) {
@@ -183,7 +221,11 @@ fun LoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-                if (validateFields(fullName, username, password, context)) {
+                if (validateFields(
+                        fullName, username, password,
+                        { fullNameError = it }, { usernameError = it }, { passwordError = it }
+                    )
+                ) {
                     Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
                 }
             },
@@ -207,21 +249,34 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Absolute.Center
         ) {
-            IconButton(onClick = { Toast.makeText(context, "Facebook Clicked", Toast.LENGTH_SHORT).show() }) {
+
+            IconButton(onClick = {
+                Toast.makeText(context, "Facebook Clicked", Toast.LENGTH_SHORT).show()
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.facebook_brands_solid),
                     contentDescription = "Facebook",
                     tint = Color.Blue
                 )
             }
-            IconButton(onClick = { Toast.makeText(context, "Twitter Clicked", Toast.LENGTH_SHORT).show() }) {
+
+            IconButton(onClick = {
+                Toast.makeText(context, "Twitter Clicked", Toast.LENGTH_SHORT).show()
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.square_twitter_brands_solid),
                     contentDescription = "Twitter",
                     tint = colorResource(R.color.twitter_blue)
                 )
             }
-            IconButton(onClick = { Toast.makeText(context, "Google Plus Clicked", Toast.LENGTH_SHORT).show() }) {
+
+            IconButton(onClick = {
+                Toast.makeText(
+                    context,
+                    "Google Plus Clicked",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.google_plus_brands_solid),
                     contentDescription = "Google Plus",
@@ -242,15 +297,41 @@ fun LoginScreen(navController: NavController) {
 
         TextButton(
             onClick = {
-                Toast.makeText(context, "Sign Up Clicked", Toast.LENGTH_SHORT).show()
+                navController.navigate("signup_screen")
             },
             modifier = Modifier.size(100.dp, 40.dp)
         ) {
-            Text(text = "Sign Up", fontWeight = FontWeight.Bold, color = Color.Blue,
-                modifier = Modifier.clickable {
-                    navController.navigate("signup_screen")
-                })
+            Text(text = "Sign Up", fontWeight = FontWeight.Bold, color = Color.Blue)
         }
+    }
+}
+
+fun validateFullName(fullName: String): String {
+    return when {
+        fullName.isEmpty() -> ""
+        fullName.isEmpty() || fullName.any { it.isDigit() } -> "Full name should not contain numbers and must not be empty"
+        fullName.length < 3 -> "Full name should be at least 3 characters long"
+        else -> ""
+    }
+}
+
+fun validateUsername(username: String): String {
+    return if (username.isEmpty()) {
+        ""
+    } else if (username.length < 3) {
+        "Username should be at least 3 characters long"
+    } else {
+        ""
+    }
+}
+
+fun validatePassword(password: String): String {
+    return if (password.isEmpty()) {
+        ""
+    } else if (password.length < 6) {
+        "Password should be at least 6 characters long"
+    } else {
+        ""
     }
 }
 
@@ -258,25 +339,38 @@ fun validateFields(
     fullName: String,
     username: String,
     password: String,
-    context: Context
+    onFullNameError: (String) -> Unit,
+    onUsernameError: (String) -> Unit,
+    onPasswordError: (String) -> Unit
 ): Boolean {
-    if (fullName.isEmpty() || fullName.any { it.isDigit() } || fullName.trim().isEmpty()) {
-        Toast.makeText(context, context.getString(R.string.login_failed_error), Toast.LENGTH_SHORT).show()
-        return false
+    var isValid = true
+
+
+    val fullNameValidation = validateFullName(fullName)
+    if (fullNameValidation.isNotEmpty()) {
+        onFullNameError(fullNameValidation)
+        isValid = false
+    } else {
+        onFullNameError("")
     }
-    if (fullName.length < 3) {
-        Toast.makeText(context, context.getString(R.string.name_length_error), Toast.LENGTH_SHORT).show()
-        return false
+
+    val usernameValidation = validateUsername(username)
+    if (usernameValidation.isNotEmpty()) {
+        onUsernameError(usernameValidation)
+        isValid = false
+    } else {
+        onUsernameError("")
     }
-    if (username.length < 3) {
-        Toast.makeText(context, context.getString(R.string.user_length_error), Toast.LENGTH_SHORT).show()
-        return false
+
+    val passwordValidation = validatePassword(password)
+    if (passwordValidation.isNotEmpty()) {
+        onPasswordError(passwordValidation)
+        isValid = false
+    } else {
+        onPasswordError("")
     }
-    if (password.length < 6) {
-        Toast.makeText(context, context.getString(R.string.password_length_error), Toast.LENGTH_SHORT).show()
-        return false
-    }
-    return true
+
+    return isValid
 }
 
 @Preview(showBackground = true)
