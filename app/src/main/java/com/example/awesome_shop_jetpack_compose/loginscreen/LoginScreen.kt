@@ -237,7 +237,7 @@ fun LoginScreen(navController: NavController) {
                 ) {
                     Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
                 }
-//                navController.navigate("home_screen")
+                navController.navigate("home_screen")
             },
             modifier = Modifier.size(150.dp, 40.dp)
         ) {
