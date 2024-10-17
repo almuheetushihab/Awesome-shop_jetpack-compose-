@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,16 +35,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.awesome_shop_jetpack_compose.R
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var fullName by rememberSaveable { mutableStateOf("") }
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
+    var fullNameError by rememberSaveable { mutableStateOf("") }
+    var usernameError by rememberSaveable { mutableStateOf("") }
+    var passwordError by rememberSaveable { mutableStateOf("") }
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
@@ -51,7 +56,8 @@ fun LoginScreen() {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(scrollState),
+            .verticalScroll(scrollState)
+            .imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -72,10 +78,19 @@ fun LoginScreen() {
         )
         Spacer(modifier = Modifier.height(40.dp))
 
+        Text(
+            text = "Full Name",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        )
         OutlinedTextField(
             value = fullName,
             onValueChange = { fullName = it },
-            label = { Text("Full Name") },
+            placeholder = { Text("Enter your full name") },
             modifier = Modifier
                 .fillMaxWidth()
                 .border(1.dp, Color.Transparent)
@@ -87,12 +102,22 @@ fun LoginScreen() {
                 unfocusedBorderColor = Color.Transparent
             )
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
+        Text(
+            text = "Username",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        )
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text("Username") },
+            placeholder = { Text("Enter your username") },
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.Gray.copy(alpha = 0.2f)),
@@ -103,12 +128,22 @@ fun LoginScreen() {
                 unfocusedBorderColor = Color.Transparent
             )
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
+        Text(
+            text = "Password",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        )
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            placeholder = { Text("Enter your password") },
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.Gray.copy(alpha = 0.2f)),
@@ -133,17 +168,18 @@ fun LoginScreen() {
 
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .height(35.dp),
             horizontalArrangement = Arrangement.End
         ) {
             TextButton(onClick = {
                 Toast.makeText(context, "Forgot Password Clicked", Toast.LENGTH_SHORT).show()
             }) {
-                Text(text = "Forgot Password?", color = Color.Blue)
+                Text(text = "Forgot Password?", color = Color.Blue, fontSize = 13.sp)
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = {
@@ -194,7 +230,7 @@ fun LoginScreen() {
             }
         }
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "Or Sign Up Using",
@@ -210,7 +246,10 @@ fun LoginScreen() {
             },
             modifier = Modifier.size(100.dp, 40.dp)
         ) {
-            Text(text = "Sign Up", fontWeight = FontWeight.Bold, color = Color.Blue)
+            Text(text = "Sign Up", fontWeight = FontWeight.Bold, color = Color.Blue,
+                modifier = Modifier.clickable {
+                    navController.navigate("signup_screen")
+                })
         }
     }
 }
@@ -244,6 +283,6 @@ fun validateFields(
 @Composable
 fun LoginScreensPreview() {
     Awesomeshop_jetpackcomposeTheme {
-        LoginScreen()
+        LoginScreen(navController = NavController(LocalContext.current))
     }
 }
