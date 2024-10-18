@@ -3,7 +3,6 @@ package com.example.awesome_shop_jetpack_compose.homescreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
@@ -99,9 +98,9 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 
         when (selectedTabIndex) {
             0 -> CategoryElectronicsContentGrid(1)
-//            1 -> CategoryContentGrid(2)
-//            2 -> CategoryContentGrid(3)
-//            3 -> CategoryContentGrid(4)
+            1 -> CategoryJeweleryContentGrid(2)
+            2 -> CategoryMensClothingContentGrid(3)
+            3 -> CategoryWomenClothingContentGrid(4)
         }
 
         Text(
@@ -124,6 +123,34 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
     }
 }
 
+val electronicsItems = listOf(
+    CategoryElectronicItems("Monitor", R.drawable.electronics_c),
+    CategoryElectronicItems("Keyboard", R.drawable.electronics_a),
+    CategoryElectronicItems("Mouse", R.drawable.electronics_b),
+    CategoryElectronicItems("Headphone", R.drawable.electronics_d)
+)
+val jeweleryItems = listOf(
+    CategoryJeweleryItems("Gold", R.drawable.electronics_c),
+    CategoryJeweleryItems("Silver", R.drawable.electronics_a),
+    CategoryJeweleryItems("Bronze", R.drawable.electronics_b),
+    CategoryJeweleryItems("Copper", R.drawable.electronics_d)
+)
+
+val menClothingItems = listOf(
+    CategoryMensClothingItems("Jacket", R.drawable.electronics_c),
+    CategoryMensClothingItems("Shirt", R.drawable.electronics_a),
+    CategoryMensClothingItems("Pant", R.drawable.electronics_b),
+    CategoryMensClothingItems("Tie", R.drawable.electronics_d)
+)
+
+val womenClothingItems = listOf(
+    CategoryWomenClothingItems("Dress", R.drawable.electronics_c),
+    CategoryWomenClothingItems("Skirt", R.drawable.electronics_a),
+    CategoryWomenClothingItems("Blouse", R.drawable.electronics_b),
+    CategoryWomenClothingItems("Tie", R.drawable.electronics_d)
+)
+
+
 @Composable
 fun CategoryElectronicsContentGrid(categoryIndex: Int) {
     LazyVerticalGrid(
@@ -132,14 +159,63 @@ fun CategoryElectronicsContentGrid(categoryIndex: Int) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(bottom = 16.dp)
     ) {
-        items(4) { itemIndex ->
-            CategoryItem(itemIndex + (categoryIndex * 4))
+        items(electronicsItems.size) { itemIndex ->
+            CategoryElectronicItem(electronicsItems[itemIndex])
         }
+
     }
 }
 
 @Composable
-fun CategoryItem(index: Int) {
+fun CategoryJeweleryContentGrid(categoryIndex: Int) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(bottom = 16.dp)
+    ) {
+        items(jeweleryItems.size) { itemIndex ->
+            CategoryJeweleryItem(jeweleryItems[itemIndex])
+        }
+
+    }
+}
+
+@Composable
+fun CategoryMensClothingContentGrid(categoryIndex: Int) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(bottom = 16.dp)
+    ) {
+        items(menClothingItems.size) { itemIndex ->
+            CategoryMensClothingItem(menClothingItems[itemIndex])
+        }
+
+    }
+}
+
+
+@Composable
+fun CategoryWomenClothingContentGrid(categoryIndex: Int) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(bottom = 16.dp)
+    ) {
+        items(womenClothingItems.size) { itemIndex ->
+            CategoryWomenClothingItem(womenClothingItems[itemIndex])
+        }
+
+    }
+}
+
+
+
+@Composable
+fun CategoryElectronicItem(categoryItem: CategoryElectronicItems) {
     Column(
         modifier = Modifier
             .padding(top = 8.dp)
@@ -148,15 +224,97 @@ fun CategoryItem(index: Int) {
             .wrapContentSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.electronics_d),
-            contentDescription = "Category $index",
+            painter = painterResource(id = categoryItem.imageRes),
+            contentDescription = categoryItem.title,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
         )
 
         Text(
-            text = "Category $index",
+            text = categoryItem.title,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun CategoryJeweleryItem(categoryItem: CategoryJeweleryItems) {
+    Column(
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .border(1.dp, MaterialTheme.colorScheme.outline)
+            .padding(8.dp)
+            .wrapContentSize()
+    ) {
+        Image(
+            painter = painterResource(id = categoryItem.imageRes),
+            contentDescription = categoryItem.title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        )
+
+        Text(
+            text = categoryItem.title,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun CategoryMensClothingItem(categoryItem: CategoryMensClothingItems) {
+    Column(
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .border(1.dp, MaterialTheme.colorScheme.outline)
+            .padding(8.dp)
+            .wrapContentSize()
+    ) {
+        Image(
+            painter = painterResource(id = categoryItem.imageRes),
+            contentDescription = categoryItem.title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        )
+
+        Text(
+            text = categoryItem.title,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+
+@Composable
+fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
+    Column(
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .border(1.dp, MaterialTheme.colorScheme.outline)
+            .padding(8.dp)
+            .wrapContentSize()
+    ) {
+        Image(
+            painter = painterResource(id = categoryItem.imageRes),
+            contentDescription = categoryItem.title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        )
+
+        Text(
+            text = categoryItem.title,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
