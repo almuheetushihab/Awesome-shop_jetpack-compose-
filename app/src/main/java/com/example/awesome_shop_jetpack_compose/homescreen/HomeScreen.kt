@@ -2,6 +2,7 @@ package com.example.awesome_shop_jetpack_compose.homescreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -107,7 +108,36 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                     text = { Text(title) })
             }
         }
-        
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .clickable {}
+            ) {
+                Text(
+                    text = "See All",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Color.Blue,
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    modifier = Modifier.padding(5.dp)
+                )
+
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_forwards_24),
+                    contentDescription = "Right Arrow",
+                    tint = Color.Blue,
+                    modifier = Modifier
+                        .size(16.dp)
+                        .padding(start = 4.dp)
+                )
+            }
+        }
 
         when (selectedTabIndex) {
             0 -> CategoryElectronicsContentGrid()
@@ -116,16 +146,62 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
             3 -> CategoryWomenClothingContentGrid()
         }
 
-        Text(
-            text = "Products",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Products",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(end = 5.dp, bottom = 5.dp, top = 5.dp)
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .clickable {}
+            ) {
+                Text(
+                    text = "See All",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Color.Blue,
+                        fontWeight = FontWeight.Bold
+                    )
+                    ,
+                    modifier = Modifier.padding(5.dp)
+                )
+
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_forwards_24),
+                    contentDescription = "Right Arrow",
+                    tint = Color.Blue,
+                    modifier = Modifier
+                        .size(16.dp)
+                        .padding(start = 4.dp)
+                )
+            }
+        }
 
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxHeight()
+        ) {
+            items(productItems.size) { productIndex ->
+                ProductItem(productItems[productIndex])
+            }
+        }
+
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
@@ -141,9 +217,9 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 fun CategoryElectronicsContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(bottom = 16.dp)
+        modifier = Modifier
     ) {
         items(electronicsItems.size) { itemIndex ->
             CategoryElectronicItem(electronicsItems[itemIndex])
@@ -155,9 +231,9 @@ fun CategoryElectronicsContentGrid() {
 fun CategoryJeweleryContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(bottom = 16.dp)
+        modifier = Modifier
     ) {
         items(jeweleryItems.size) { itemIndex ->
             CategoryJeweleryItem(jeweleryItems[itemIndex])
@@ -169,9 +245,9 @@ fun CategoryJeweleryContentGrid() {
 fun CategoryMensClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(bottom = 16.dp)
+        modifier = Modifier
     ) {
         items(menClothingItems.size) { itemIndex ->
             CategoryMensClothingItem(menClothingItems[itemIndex])
@@ -183,9 +259,9 @@ fun CategoryMensClothingContentGrid() {
 fun CategoryWomenClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(bottom = 16.dp)
+        modifier = Modifier
     ) {
         items(womenClothingItems.size) { itemIndex ->
             CategoryWomenClothingItem(womenClothingItems[itemIndex])
@@ -198,7 +274,6 @@ fun CategoryWomenClothingContentGrid() {
 fun CategoryElectronicItem(categoryItem: CategoryElectronicItems) {
     Column(
         modifier = Modifier
-            .padding(top = 8.dp)
             .border(1.dp, MaterialTheme.colorScheme.outline)
             .padding(8.dp)
             .wrapContentSize()
@@ -308,10 +383,9 @@ fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
 fun ProductItem(product: Product) {
     Column(
         modifier = Modifier
-            .padding(8.dp)
             .border(1.dp, MaterialTheme.colorScheme.outline)
             .padding(8.dp)
-            .width(150.dp)
+            .wrapContentSize()
     ) {
 
         Image(
