@@ -2,8 +2,6 @@ package com.example.awesome_shop_jetpack_compose.homescreen
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.ColumnScopeInstance.align
-import androidx.compose.foundation.layout.FlowColumnScopeInstance.align
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -69,7 +67,7 @@ fun HomeScreenWithAppBar() {
 @Composable
 fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
     var selectedTabIndex by remember { mutableStateOf(0) }
-    val tabTitles = listOf("Category 1", "Category 2", "Category 3")
+    val tabTitles = listOf("Electronics", "Jewelery", "Men's clothing", "Women's clothing")
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -100,6 +98,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
             0 -> CategoryContent(1)
             1 -> CategoryContent(2)
             2 -> CategoryContent(3)
+            3 -> CategoryContent(4)
         }
 
         Text(
@@ -124,18 +123,15 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 
 @Composable
 fun CategoryContent(categoryIndex: Int) {
-    Text(
-        text = "Categories for Category $categoryIndex",
-        style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier.padding(bottom = 8.dp)
-    )
+
+    Spacer(modifier = Modifier.height(8.dp))
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(bottom = 16.dp)
     ) {
         items(10) { itemIndex ->
-            CategoryItem(itemIndex + (categoryIndex * 10)) // Sample data for categories
+            CategoryItem(itemIndex + (categoryIndex * 10))
         }
     }
 }
