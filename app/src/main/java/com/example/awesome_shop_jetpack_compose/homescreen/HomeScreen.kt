@@ -35,6 +35,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.awesome_shop_jetpack_compose.R
+import com.example.awesome_shop_jetpack_compose.data.CategoryElectronicItems
+import com.example.awesome_shop_jetpack_compose.data.CategoryJeweleryItems
+import com.example.awesome_shop_jetpack_compose.data.CategoryMensClothingItems
+import com.example.awesome_shop_jetpack_compose.data.CategoryWomenClothingItems
+import com.example.awesome_shop_jetpack_compose.data.Product
+import com.example.awesome_shop_jetpack_compose.data.electronicsItems
+import com.example.awesome_shop_jetpack_compose.data.jeweleryItems
+import com.example.awesome_shop_jetpack_compose.data.menClothingItems
+import com.example.awesome_shop_jetpack_compose.data.productItems
+import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,9 +66,7 @@ fun HomeScreenWithAppBar() {
         }, actions = {
             IconButton(onClick = { }) {
                 Icon(
-                    Icons.Filled.MoreVert,
-                    contentDescription = "Settings",
-                    tint = Color.White
+                    Icons.Filled.MoreVert, contentDescription = "Settings", tint = Color.White
                 )
             }
         }, colors = TopAppBarDefaults.smallTopAppBarColors(
@@ -94,14 +102,12 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 
         ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 0.dp) {
             tabTitles.forEachIndexed { index, title ->
-                Tab(
-                    selected = selectedTabIndex == index,
+                Tab(selected = selectedTabIndex == index,
                     onClick = { selectedTabIndex = index },
-                    text = { Text(title) }
-                )
+                    text = { Text(title) })
             }
         }
-
+        
 
         when (selectedTabIndex) {
             0 -> CategoryElectronicsContentGrid()
@@ -130,55 +136,6 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 
     }
 }
-
-val electronicsItems = listOf(
-    CategoryElectronicItems("Acer 21.5 inc", R.drawable.electronics_c),
-    CategoryElectronicItems("SanDisk 1TB", R.drawable.electronics_a),
-    CategoryElectronicItems("SanDisk 1TB", R.drawable.electronics_a),
-    CategoryElectronicItems("Curved Monitor", R.drawable.electronics_d)
-)
-
-val jeweleryItems = listOf(
-    CategoryJeweleryItems("Bracelet", R.drawable.jewelery_bracelet),
-    CategoryJeweleryItems("Gold Petite Micropave", R.drawable.jewelery_petite),
-    CategoryJeweleryItems("White Gold Plated", R.drawable.jewelery_plated),
-    CategoryJeweleryItems("Rose Gold Plated", R.drawable.jewelery_rosegold)
-)
-
-val menClothingItems = listOf(
-    CategoryMensClothingItems("T-Shirts", R.drawable.mensclothings_tshirt),
-    CategoryMensClothingItems("Cotton Jacket", R.drawable.mensclothings_jacket),
-    CategoryMensClothingItems("Casual Slim Fit", R.drawable.mensclothings_slimfit),
-    CategoryMensClothingItems("Backpack", R.drawable.mensclothings_backpack)
-)
-
-val womenClothingItems = listOf(
-    CategoryWomenClothingItems("Snowboard Jacket", R.drawable.womensclothing_snowboard),
-    CategoryWomenClothingItems("Leather Jacket", R.drawable.womensclothing_lether),
-    CategoryWomenClothingItems("Rain Jacket", R.drawable.womensclothing_rain),
-    CategoryWomenClothingItems("Short Sleeve", R.drawable.womensclothing_sleeve)
-)
-
-val productItems = listOf(
-    Product("Acer 21.5 inc", R.drawable.electronics_c),
-    Product("SanDisk 1TB", R.drawable.electronics_a),
-    Product("SanDisk 1TB", R.drawable.electronics_a),
-    Product("Curved Monitor", R.drawable.electronics_d),
-    Product("Bracelet", R.drawable.jewelery_bracelet),
-    Product("Gold Petite Micropave", R.drawable.jewelery_petite),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-    Product("T-Shirts", R.drawable.mensclothings_tshirt),
-)
-
-
 
 @Composable
 fun CategoryElectronicsContentGrid() {
@@ -368,7 +325,7 @@ fun ProductItem(product: Product) {
 
         Text(
             text = product.title,
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
