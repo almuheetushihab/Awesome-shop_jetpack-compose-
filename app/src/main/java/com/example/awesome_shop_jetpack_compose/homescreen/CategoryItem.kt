@@ -7,3 +7,5 @@ data class CategoryJeweleryItems(val title: String, val imageRes: Int)
 data class CategoryMensClothingItems(val title: String, val imageRes: Int)
 
 data class CategoryWomenClothingItems(val title: String, val imageRes: Int)
+
+data class Product(val title: String, val imageRes: Int)

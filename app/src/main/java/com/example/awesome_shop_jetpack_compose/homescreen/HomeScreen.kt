@@ -123,39 +123,61 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
-            items(100) { productIndex ->
-                ProductItem(productIndex)
+            items(productItems.size) { productIndex ->
+                ProductItem(productItems[productIndex])
             }
         }
+
     }
 }
 
 val electronicsItems = listOf(
-    CategoryElectronicItems("Monitor", R.drawable.electronics_c),
-    CategoryElectronicItems("Keyboard", R.drawable.electronics_a),
-    CategoryElectronicItems("Mouse", R.drawable.electronics_b),
-    CategoryElectronicItems("Headphone", R.drawable.electronics_d)
+    CategoryElectronicItems("Acer 21.5 inc", R.drawable.electronics_c),
+    CategoryElectronicItems("SanDisk 1TB", R.drawable.electronics_a),
+    CategoryElectronicItems("SanDisk 1TB", R.drawable.electronics_a),
+    CategoryElectronicItems("Curved Monitor", R.drawable.electronics_d)
 )
+
 val jeweleryItems = listOf(
-    CategoryJeweleryItems("Gold", R.drawable.electronics_c),
-    CategoryJeweleryItems("Silver", R.drawable.electronics_a),
-    CategoryJeweleryItems("Bronze", R.drawable.electronics_b),
-    CategoryJeweleryItems("Copper", R.drawable.electronics_d)
+    CategoryJeweleryItems("Bracelet", R.drawable.jewelery_bracelet),
+    CategoryJeweleryItems("Gold Petite Micropave", R.drawable.jewelery_petite),
+    CategoryJeweleryItems("White Gold Plated", R.drawable.jewelery_plated),
+    CategoryJeweleryItems("Rose Gold Plated", R.drawable.jewelery_rosegold)
 )
 
 val menClothingItems = listOf(
-    CategoryMensClothingItems("T-Shirts", R.drawable.electronics_c),
-    CategoryMensClothingItems("Cotton Jacket", R.drawable.electronics_a),
-    CategoryMensClothingItems("Casual Slim Fit", R.drawable.electronics_b),
-    CategoryMensClothingItems("Backpack", R.drawable.electronics_d)
+    CategoryMensClothingItems("T-Shirts", R.drawable.mensclothings_tshirt),
+    CategoryMensClothingItems("Cotton Jacket", R.drawable.mensclothings_jacket),
+    CategoryMensClothingItems("Casual Slim Fit", R.drawable.mensclothings_slimfit),
+    CategoryMensClothingItems("Backpack", R.drawable.mensclothings_backpack)
 )
 
 val womenClothingItems = listOf(
-    CategoryWomenClothingItems("Dress", R.drawable.electronics_c),
-    CategoryWomenClothingItems("Skirt", R.drawable.electronics_a),
-    CategoryWomenClothingItems("Blouse", R.drawable.electronics_b),
-    CategoryWomenClothingItems("Tie", R.drawable.electronics_d)
+    CategoryWomenClothingItems("Snowboard Jacket", R.drawable.womensclothing_snowboard),
+    CategoryWomenClothingItems("Leather Jacket", R.drawable.womensclothing_lether),
+    CategoryWomenClothingItems("Rain Jacket", R.drawable.womensclothing_rain),
+    CategoryWomenClothingItems("Short Sleeve", R.drawable.womensclothing_sleeve)
 )
+
+val productItems = listOf(
+    Product("Acer 21.5 inc", R.drawable.electronics_c),
+    Product("SanDisk 1TB", R.drawable.electronics_a),
+    Product("SanDisk 1TB", R.drawable.electronics_a),
+    Product("Curved Monitor", R.drawable.electronics_d),
+    Product("Bracelet", R.drawable.jewelery_bracelet),
+    Product("Gold Petite Micropave", R.drawable.jewelery_petite),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+    Product("T-Shirts", R.drawable.mensclothings_tshirt),
+)
+
 
 
 @Composable
@@ -199,7 +221,6 @@ fun CategoryMensClothingContentGrid() {
         }
     }
 }
-
 
 @Composable
 fun CategoryWomenClothingContentGrid() {
@@ -327,15 +348,34 @@ fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
 
 
 @Composable
-fun ProductItem(index: Int) {
-    Box(
+fun ProductItem(product: Product) {
+    Column(
         modifier = Modifier
-            .size(150.dp)
+            .padding(8.dp)
             .border(1.dp, MaterialTheme.colorScheme.outline)
+            .padding(8.dp)
+            .width(150.dp)
     ) {
-        Text(text = "Product $index")
+
+        Image(
+            painter = painterResource(id = product.imageRes),
+            contentDescription = product.title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        )
+
+
+        Text(
+            text = product.title,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
