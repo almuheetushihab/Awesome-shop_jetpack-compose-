@@ -233,8 +233,8 @@ fun CategoryElectronicsContentGrid() {
 fun CategoryJeweleryContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
     ) {
         items(jeweleryItems.size) { itemIndex ->
@@ -247,8 +247,8 @@ fun CategoryJeweleryContentGrid() {
 fun CategoryMensClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
     ) {
         items(menClothingItems.size) { itemIndex ->
@@ -261,8 +261,8 @@ fun CategoryMensClothingContentGrid() {
 fun CategoryWomenClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
     ) {
         items(womenClothingItems.size) { itemIndex ->
@@ -415,31 +415,38 @@ fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
 
 @Composable
 fun ProductItem(product: Product) {
-    Column(
+    Card(
         modifier = Modifier
-            .border(1.dp, MaterialTheme.colorScheme.outline)
             .padding(8.dp)
-            .wrapContentSize()
+            .wrapContentSize(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
+        Column(
+            modifier = Modifier.padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = product.imageRes),
+                contentDescription = product.title,
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+            )
 
-        Image(
-            painter = painterResource(id = product.imageRes),
-            contentDescription = product.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
-
-
-        Text(
-            text = product.title,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
+            Text(
+                text = product.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
+
 
 
 @Preview(showBackground = true)
