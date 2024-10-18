@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -125,7 +127,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                         color = Color.Blue,
                         fontWeight = FontWeight.Bold,
                     ),
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(16.dp)
                 )
 
                 Icon(
@@ -157,7 +159,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(end = 5.dp, bottom = 5.dp, top = 5.dp)
+                    .padding(end = 16.dp, bottom = 16.dp, top = 16 .dp)
             )
 
             Row(
@@ -172,7 +174,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold
                     )
                     ,
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(16.dp)
                 )
 
                 Icon(
@@ -189,8 +191,8 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
             items(productItems.size) { productIndex ->
@@ -231,8 +233,8 @@ fun CategoryElectronicsContentGrid() {
 fun CategoryJeweleryContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
     ) {
         items(jeweleryItems.size) { itemIndex ->
@@ -245,8 +247,8 @@ fun CategoryJeweleryContentGrid() {
 fun CategoryMensClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
     ) {
         items(menClothingItems.size) { itemIndex ->
@@ -259,8 +261,8 @@ fun CategoryMensClothingContentGrid() {
 fun CategoryWomenClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
     ) {
         items(womenClothingItems.size) { itemIndex ->
@@ -269,114 +271,146 @@ fun CategoryWomenClothingContentGrid() {
     }
 }
 
-
 @Composable
 fun CategoryElectronicItem(categoryItem: CategoryElectronicItems) {
-    Column(
+    Card(
         modifier = Modifier
-            .border(1.dp, MaterialTheme.colorScheme.outline)
             .padding(8.dp)
-            .wrapContentSize()
+            .wrapContentSize(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(1.dp)
     ) {
-        Image(
-            painter = painterResource(id = categoryItem.imageRes),
-            contentDescription = categoryItem.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
+        Column(
+            modifier = Modifier.padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = categoryItem.imageRes),
+                contentDescription = categoryItem.title,
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+            )
 
-        Text(
-            text = categoryItem.title,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+            Text(
+                text = categoryItem.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
+
 
 @Composable
 fun CategoryJeweleryItem(categoryItem: CategoryJeweleryItems) {
-    Column(
+    Card(
         modifier = Modifier
-            .padding(top = 8.dp)
-            .border(1.dp, MaterialTheme.colorScheme.outline)
             .padding(8.dp)
-            .wrapContentSize()
+            .wrapContentSize(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(1.dp)
     ) {
-        Image(
-            painter = painterResource(id = categoryItem.imageRes),
-            contentDescription = categoryItem.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
+        Column(
+            modifier = Modifier.padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = categoryItem.imageRes),
+                contentDescription = categoryItem.title,
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+            )
 
-        Text(
-            text = categoryItem.title,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+            Text(
+                text = categoryItem.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
+
 
 @Composable
 fun CategoryMensClothingItem(categoryItem: CategoryMensClothingItems) {
-    Column(
+    Card(
         modifier = Modifier
-            .padding(top = 8.dp)
-            .border(1.dp, MaterialTheme.colorScheme.outline)
             .padding(8.dp)
-            .wrapContentSize()
+            .wrapContentSize(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(1.dp)
     ) {
-        Image(
-            painter = painterResource(id = categoryItem.imageRes),
-            contentDescription = categoryItem.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
+        Column(
+            modifier = Modifier.padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = categoryItem.imageRes),
+                contentDescription = categoryItem.title,
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+            )
 
-        Text(
-            text = categoryItem.title,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+            Text(
+                text = categoryItem.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
+
 
 
 @Composable
 fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
-    Column(
+    Card(
         modifier = Modifier
-            .padding(top = 8.dp)
-            .border(1.dp, MaterialTheme.colorScheme.outline)
             .padding(8.dp)
-            .wrapContentSize()
+            .wrapContentSize(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(1.dp)
     ) {
-        Image(
-            painter = painterResource(id = categoryItem.imageRes),
-            contentDescription = categoryItem.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
+        Column(
+            modifier = Modifier.padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = categoryItem.imageRes),
+                contentDescription = categoryItem.title,
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+            )
 
-        Text(
-            text = categoryItem.title,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+            Text(
+                text = categoryItem.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
+
 
 
 @Composable
