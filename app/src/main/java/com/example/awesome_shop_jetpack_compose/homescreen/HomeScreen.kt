@@ -1,5 +1,6 @@
 package com.example.awesome_shop_jetpack_compose.homescreen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -25,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.awesome_shop_jetpack_compose.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,10 +98,10 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
         }
 
         when (selectedTabIndex) {
-            0 -> CategoryContent(1)
-            1 -> CategoryContent(2)
-            2 -> CategoryContent(3)
-            3 -> CategoryContent(4)
+            0 -> CategoryElectronicsContentGrid(1)
+//            1 -> CategoryContentGrid(2)
+//            2 -> CategoryContentGrid(3)
+//            3 -> CategoryContentGrid(4)
         }
 
         Text(
@@ -122,30 +125,46 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CategoryContent(categoryIndex: Int) {
-
-    Spacer(modifier = Modifier.height(8.dp))
-
-    LazyRow(
+fun CategoryElectronicsContentGrid(categoryIndex: Int) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(bottom = 16.dp)
     ) {
-        items(10) { itemIndex ->
-            CategoryItem(itemIndex + (categoryIndex * 10))
+        items(4) { itemIndex ->
+            CategoryItem(itemIndex + (categoryIndex * 4))
         }
     }
 }
 
 @Composable
 fun CategoryItem(index: Int) {
-    Box(
+    Column(
         modifier = Modifier
-            .width(100.dp)
+            .padding(top = 8.dp)
             .border(1.dp, MaterialTheme.colorScheme.outline)
+            .padding(8.dp)
+            .wrapContentSize()
     ) {
-        Text(text = "Category $index" , fontSize = 14.sp,textAlign =  TextAlign.Center, modifier = Modifier.padding(8.dp))
+        Image(
+            painter = painterResource(id = R.drawable.electronics_d),
+            contentDescription = "Category $index",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        )
+
+        Text(
+            text = "Category $index",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
+
 
 @Composable
 fun ProductItem(index: Int) {
