@@ -144,10 +144,10 @@ val jeweleryItems = listOf(
 )
 
 val menClothingItems = listOf(
-    CategoryMensClothingItems("Jacket", R.drawable.electronics_c),
-    CategoryMensClothingItems("Shirt", R.drawable.electronics_a),
-    CategoryMensClothingItems("Pant", R.drawable.electronics_b),
-    CategoryMensClothingItems("Tie", R.drawable.electronics_d)
+    CategoryMensClothingItems("T-Shirts", R.drawable.electronics_c),
+    CategoryMensClothingItems("Cotton Jacket", R.drawable.electronics_a),
+    CategoryMensClothingItems("Casual Slim Fit", R.drawable.electronics_b),
+    CategoryMensClothingItems("Backpack", R.drawable.electronics_d)
 )
 
 val womenClothingItems = listOf(
