@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -39,29 +40,35 @@ import com.example.awesome_shop_jetpack_compose.R
 @Composable
 fun HomeScreenWithAppBar() {
 
-    Scaffold(
-        topBar = {
-            SmallTopAppBar(
-                title = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Awesome Shop", textAlign = TextAlign.Center, fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold)
-                    }
-                },
-                actions = {
-                    IconButton(onClick = {  }) {
-                        Icon(Icons.Filled.MoreVert, contentDescription = "Settings", tint = Color.White)
-                    }
-                },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = Color(0xFF6200EE)
+    Scaffold(topBar = {
+        SmallTopAppBar(title = {
+            Box(
+                modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Awesome Shop",
+                    textAlign = TextAlign.Center,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
                 )
-            )
-        }
-    ) { paddingValues ->
-        HomeScreen(navController = rememberNavController(), modifier = Modifier.padding(paddingValues))
+            }
+        }, actions = {
+            IconButton(onClick = { }) {
+                Icon(
+                    Icons.Filled.MoreVert,
+                    contentDescription = "Settings",
+                    tint = Color.White
+                )
+            }
+        }, colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = Color(0xFF6200EE)
+        )
+        )
+    }) { paddingValues ->
+        HomeScreen(
+            navController = rememberNavController(), modifier = Modifier.padding(paddingValues)
+        )
     }
 }
 
@@ -73,8 +80,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.Start
+            .padding(16.dp), horizontalAlignment = Alignment.Start
     ) {
 
         Text(
@@ -86,21 +92,22 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
         )
 
 
-        TabRow(selectedTabIndex = selectedTabIndex) {
+        ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 0.dp) {
             tabTitles.forEachIndexed { index, title ->
                 Tab(
                     selected = selectedTabIndex == index,
                     onClick = { selectedTabIndex = index },
-                    text = { Text(title)}
+                    text = { Text(title) }
                 )
             }
         }
 
+
         when (selectedTabIndex) {
-            0 -> CategoryElectronicsContentGrid(1)
-            1 -> CategoryJeweleryContentGrid(2)
-            2 -> CategoryMensClothingContentGrid(3)
-            3 -> CategoryWomenClothingContentGrid(4)
+            0 -> CategoryElectronicsContentGrid()
+            1 -> CategoryJeweleryContentGrid()
+            2 -> CategoryMensClothingContentGrid()
+            3 -> CategoryWomenClothingContentGrid()
         }
 
         Text(
@@ -152,7 +159,7 @@ val womenClothingItems = listOf(
 
 
 @Composable
-fun CategoryElectronicsContentGrid(categoryIndex: Int) {
+fun CategoryElectronicsContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -162,12 +169,11 @@ fun CategoryElectronicsContentGrid(categoryIndex: Int) {
         items(electronicsItems.size) { itemIndex ->
             CategoryElectronicItem(electronicsItems[itemIndex])
         }
-
     }
 }
 
 @Composable
-fun CategoryJeweleryContentGrid(categoryIndex: Int) {
+fun CategoryJeweleryContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -177,12 +183,11 @@ fun CategoryJeweleryContentGrid(categoryIndex: Int) {
         items(jeweleryItems.size) { itemIndex ->
             CategoryJeweleryItem(jeweleryItems[itemIndex])
         }
-
     }
 }
 
 @Composable
-fun CategoryMensClothingContentGrid(categoryIndex: Int) {
+fun CategoryMensClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -192,13 +197,12 @@ fun CategoryMensClothingContentGrid(categoryIndex: Int) {
         items(menClothingItems.size) { itemIndex ->
             CategoryMensClothingItem(menClothingItems[itemIndex])
         }
-
     }
 }
 
 
 @Composable
-fun CategoryWomenClothingContentGrid(categoryIndex: Int) {
+fun CategoryWomenClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -208,10 +212,8 @@ fun CategoryWomenClothingContentGrid(categoryIndex: Int) {
         items(womenClothingItems.size) { itemIndex ->
             CategoryWomenClothingItem(womenClothingItems[itemIndex])
         }
-
     }
 }
-
 
 
 @Composable
