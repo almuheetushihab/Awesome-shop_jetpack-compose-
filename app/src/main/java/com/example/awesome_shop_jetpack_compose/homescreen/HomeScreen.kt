@@ -127,7 +127,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                         color = Color.Blue,
                         fontWeight = FontWeight.Bold,
                     ),
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(8.dp)
                 )
 
                 Icon(
@@ -159,7 +159,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(end = 16.dp, bottom = 16.dp, top = 16 .dp)
+                    .padding(end = 12.dp, bottom = 12.dp, top = 12 .dp)
             )
 
             Row(
@@ -174,7 +174,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold
                     )
                     ,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(12.dp)
                 )
 
                 Icon(
@@ -191,8 +191,8 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
             items(productItems.size) { productIndex ->
@@ -219,8 +219,8 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 fun CategoryElectronicsContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
         modifier = Modifier
     ) {
         items(electronicsItems.size) { itemIndex ->
@@ -275,7 +275,7 @@ fun CategoryWomenClothingContentGrid() {
 fun CategoryElectronicItem(categoryItem: CategoryElectronicItems) {
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(6.dp)
             .wrapContentSize(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -299,7 +299,7 @@ fun CategoryElectronicItem(categoryItem: CategoryElectronicItems) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(4.dp)
             )
         }
     }
@@ -310,7 +310,7 @@ fun CategoryElectronicItem(categoryItem: CategoryElectronicItems) {
 fun CategoryJeweleryItem(categoryItem: CategoryJeweleryItems) {
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(6.dp)
             .wrapContentSize(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -345,7 +345,7 @@ fun CategoryJeweleryItem(categoryItem: CategoryJeweleryItems) {
 fun CategoryMensClothingItem(categoryItem: CategoryMensClothingItems) {
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(6.dp)
             .wrapContentSize(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -381,7 +381,7 @@ fun CategoryMensClothingItem(categoryItem: CategoryMensClothingItems) {
 fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(6.dp)
             .wrapContentSize(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -417,7 +417,7 @@ fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
 fun ProductItem(product: Product) {
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(6.dp)
             .wrapContentSize(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -441,7 +441,7 @@ fun ProductItem(product: Product) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(4.dp)
             )
         }
     }
