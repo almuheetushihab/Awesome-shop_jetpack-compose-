@@ -230,18 +230,15 @@ fun LoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-                if (validateFields(
-                        fullName, username, password,
-                        { fullNameError = it }, { usernameError = it }, { passwordError = it }
-                    )
-                ) {
-                    Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
+                if (username == "mor2314" && password == "123456") {
+                    navController.navigate("home_screen/${fullName}")
+                } else {
+                    Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show()
                 }
-                navController.navigate("home_screen")
             },
             modifier = Modifier.size(150.dp, 40.dp)
         ) {
-            Text(text = stringResource(id = R.string.login), fontWeight = FontWeight.Bold,)
+            Text(text = stringResource(id = R.string.login), fontWeight = FontWeight.Bold)
         }
 
         Spacer(modifier = Modifier.height(12.dp))
