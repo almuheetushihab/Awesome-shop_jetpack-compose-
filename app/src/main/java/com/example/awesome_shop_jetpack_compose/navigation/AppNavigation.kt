@@ -22,7 +22,8 @@ fun AppNavigation() {
         }
         composable("home_screen/{fullName}") { backStackEntry ->
             val fullName = backStackEntry.arguments?.getString("fullName") ?: "User"
-            HomeScreen(navController, fullName)
+            HomeScreenWithAppBar(navController, fullName)
         }
+
     }
 }

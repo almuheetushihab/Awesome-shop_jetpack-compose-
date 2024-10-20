@@ -53,69 +53,72 @@ import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenWithAppBar(navController: NavController) {
+fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
     var menuExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
-    Scaffold(topBar = {
-        SmallTopAppBar(
-            title = {
-                Box(
-                    modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Awesome Shop",
-                        textAlign = TextAlign.Center,
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            },
-            actions = {
-                IconButton(onClick = { menuExpanded = true }) {
-                    Icon(
-                        Icons.Filled.MoreVert,
-                        contentDescription = "Settings",
-                        tint = Color.White
-                    )
-                }
+    Scaffold(
+        topBar = {
+            SmallTopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Awesome Shop",
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { menuExpanded = true }) {
+                        Icon(
+                            Icons.Filled.MoreVert,
+                            contentDescription = "Settings",
+                            tint = Color.White
+                        )
+                    }
 
-                DropdownMenu(
-                    expanded = menuExpanded,
-                    onDismissRequest = { menuExpanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Cart") },
-                        onClick = {
-                            menuExpanded = false
-                            Toast.makeText(context, "Cart Clicked", Toast.LENGTH_SHORT).show()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Logout") },
-                        onClick = {
-                            menuExpanded = false
-                            Toast.makeText(context, "Logout Clicked", Toast.LENGTH_SHORT).show()
-                            navController.navigate("login_screen") {
-                                popUpTo("home_screen") { inclusive = true }
+                    DropdownMenu(
+                        expanded = menuExpanded,
+                        onDismissRequest = { menuExpanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Cart") },
+                            onClick = {
+                                menuExpanded = false
+                                Toast.makeText(context, "Cart Clicked", Toast.LENGTH_SHORT).show()
                             }
-                        }
-                    )
-                }
-            },
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = Color(0xFF6200EE)
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Logout") },
+                            onClick = {
+                                menuExpanded = false
+                                Toast.makeText(context, "Logout Clicked", Toast.LENGTH_SHORT).show()
+                                navController.navigate("login_screen") {
+                                    popUpTo("home_screen") { inclusive = true }
+                                }
+                            }
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = Color(0xFF6200EE)
+                )
             )
-        )
-    }) { paddingValues ->
+        }
+    ) { paddingValues ->
         HomeScreen(
-            navController = rememberNavController(), modifier = Modifier.padding(paddingValues)
-            , fullName = ""
+            navController = navController,
+            modifier = Modifier.padding(paddingValues),
+            fullName = fullName
         )
     }
 }
-
 
 
 @Composable
@@ -486,5 +489,5 @@ fun ProductItem(product: Product) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
-//    HomeScreen(navController = rememberNavController())
+    HomeScreen(navController = rememberNavController(), fullName = "")
 }

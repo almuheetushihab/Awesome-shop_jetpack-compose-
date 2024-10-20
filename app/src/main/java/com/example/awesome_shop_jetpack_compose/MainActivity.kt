@@ -19,7 +19,7 @@ import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomp
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
             Awesomeshop_jetpackcomposeTheme {
                 Surface(
