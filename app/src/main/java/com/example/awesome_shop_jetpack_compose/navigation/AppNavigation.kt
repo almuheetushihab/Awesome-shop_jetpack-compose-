@@ -8,8 +8,8 @@ import com.example.awesome_shop_jetpack_compose.homescreen.HomeScreen
 import com.example.awesome_shop_jetpack_compose.homescreen.HomeScreenWithAppBar
 import com.example.awesome_shop_jetpack_compose.loginscreen.LoginScreen
 import com.example.awesome_shop_jetpack_compose.loginscreen.SplashScreen
+import com.example.awesome_shop_jetpack_compose.productsdetailsscreen.ProductDetailsScreen
 import com.example.awesome_shop_jetpack_compose.signupscreen.SignUpScreen
-
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -28,6 +28,8 @@ fun AppNavigation() {
             val fullName = backStackEntry.arguments?.getString("fullName") ?: "User"
             HomeScreenWithAppBar(navController, fullName)
         }
-
+        composable("product_details_screen") {
+            ProductDetailsScreen(navController)
+        }
     }
 }

@@ -253,9 +253,12 @@ fun HomeScreen(navController: NavController, fullName: String, modifier: Modifie
                 .height(306.dp)
         ) {
             items(productItems.size) { productIndex ->
-                ProductItem(productItems[productIndex])
+                ProductItem(productItems[productIndex]) {
+                    navController.navigate("product_details_screen")
+                }
             }
         }
+
     }
 }
 
@@ -456,11 +459,12 @@ fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
 
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(product: Product, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(6.dp)
-            .wrapContentSize(),
+            .wrapContentSize()
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
@@ -490,6 +494,7 @@ fun ProductItem(product: Product) {
         }
     }
 }
+
 
 
 @Preview(showBackground = true)
