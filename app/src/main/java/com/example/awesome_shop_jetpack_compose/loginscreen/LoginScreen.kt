@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.awesome_shop_jetpack_compose.R
+import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,6 +51,20 @@ fun LoginScreen(navController: NavController) {
     var passwordError by rememberSaveable { mutableStateOf("") }
     val scrollState = rememberScrollState()
     val context = LocalContext.current
+    val sharedPreferenceHelper = SharedPreferenceHelper(context)
+
+    val savedLoginData = sharedPreferenceHelper.getLoginData()
+
+    LaunchedEffect(Unit) {
+        savedLoginData.let {
+            if (it.first != null && it.second != null && it.third != null) {
+                fullName = it.first ?: ""
+                username = it.second ?: ""
+                password = it.third ?: ""
+                navController.navigate("home_screen/${fullName}")
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -230,16 +246,30 @@ fun LoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-                if (username == "mor2314" && password == "123456") {
-                    navController.navigate("home_screen/${fullName}")
-                } else {
-                    Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+                when {
+                    fullName.isBlank() -> {
+                        Toast.makeText(context, "Please enter your full name", Toast.LENGTH_SHORT).show()
+                    }
+                    username.isBlank() -> {
+                        Toast.makeText(context, "Please enter your username", Toast.LENGTH_SHORT).show()
+                    }
+                    password.isBlank() -> {
+                        Toast.makeText(context, "Please enter your password", Toast.LENGTH_SHORT).show()
+                    }
+                    username == "mor2314" && password == "123456" -> {
+                        sharedPreferenceHelper.saveLoginData(fullName, username, password)
+                        navController.navigate("home_screen/${fullName}")
+                    }
+                    else -> {
+                        Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+                    }
                 }
             },
             modifier = Modifier.size(150.dp, 40.dp)
         ) {
             Text(text = stringResource(id = R.string.login), fontWeight = FontWeight.Bold)
         }
+
 
         Spacer(modifier = Modifier.height(12.dp))
 

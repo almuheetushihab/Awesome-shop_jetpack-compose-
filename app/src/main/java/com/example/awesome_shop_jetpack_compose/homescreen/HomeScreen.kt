@@ -50,12 +50,15 @@ import com.example.awesome_shop_jetpack_compose.data.jeweleryItems
 import com.example.awesome_shop_jetpack_compose.data.menClothingItems
 import com.example.awesome_shop_jetpack_compose.data.productItems
 import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
+import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
     var menuExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val sharedPreferenceHelper = SharedPreferenceHelper(context)
+
 
     Scaffold(
         topBar = {
@@ -101,6 +104,7 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
                                 Toast.makeText(context, "Logout Clicked", Toast.LENGTH_SHORT).show()
                                 navController.navigate("login_screen") {
                                     popUpTo("home_screen") { inclusive = true }
+                                    sharedPreferenceHelper.clearLoginData()
                                 }
                             }
                         )
@@ -132,7 +136,7 @@ fun HomeScreen(navController: NavController,fullName: String, modifier: Modifier
     ) {
 
         Text(
-            text = "Welcome,$fullName",
+            text = "Welcome, $fullName",
             style = MaterialTheme.typography.headlineMedium,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
@@ -336,7 +340,7 @@ fun CategoryElectronicItem(categoryItem: CategoryElectronicItems) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(4.dp)
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
