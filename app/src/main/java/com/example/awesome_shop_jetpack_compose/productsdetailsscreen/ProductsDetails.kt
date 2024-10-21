@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.awesome_shop_jetpack_compose.R
+import com.example.awesome_shop_jetpack_compose.customappber.CustomAppBar
 
 @Composable
 fun ProductDetailsScreen(
@@ -31,22 +32,22 @@ fun ProductDetailsScreen(
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        CustomAppBar(navController, title = "Product Details")
         Image(
             painter = painterResource(id = R.drawable.mensclothings_backpack),
             contentDescription = "Product Image",
             modifier = Modifier
                 .size(400.dp)
-                .padding(bottom = 16.dp)
+                .padding(16.dp)
         )
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp,bottom = 16.dp),
+                .padding(16.dp),
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
@@ -65,7 +66,7 @@ fun ProductDetailsScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
+                .padding(16.dp),
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
@@ -84,7 +85,7 @@ fun ProductDetailsScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
+                .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
@@ -102,7 +103,7 @@ fun ProductDetailsScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
+                .padding(16.dp),
             horizontalArrangement = Arrangement.Start
         ){
             Text(
