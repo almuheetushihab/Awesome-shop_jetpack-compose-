@@ -4,8 +4,11 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
@@ -126,118 +129,129 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
 
 
 @Composable
-fun HomeScreen(navController: NavController,fullName: String, modifier: Modifier = Modifier) {
+fun HomeScreen(navController: NavController, fullName: String, modifier: Modifier = Modifier) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Electronics", "Jewelery", "Men's clothing", "Women's clothing")
-    Column(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp), horizontalAlignment = Alignment.Start
+            .padding(16.dp),
+        horizontalAlignment = Alignment.Start
     ) {
 
-        Text(
-            text = "Welcome, $fullName",
-            style = MaterialTheme.typography.headlineMedium,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-        )
-
-
-        ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 0.dp) {
-            tabTitles.forEachIndexed { index, title ->
-                Tab(selected = selectedTabIndex == index,
-                    onClick = { selectedTabIndex = index },
-                    text = { Text(title) })
-            }
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .clickable {}
-            ) {
-                Text(
-                    text = "See All",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color.Blue,
-                        fontWeight = FontWeight.Bold,
-                    ),
-                    modifier = Modifier.padding(8.dp)
-                )
-
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_forwards_24),
-                    contentDescription = "Right Arrow",
-                    tint = Color.Blue,
-                    modifier = Modifier
-                        .size(16.dp)
-                        .padding(start = 4.dp)
-                )
-            }
-        }
-
-        when (selectedTabIndex) {
-            0 -> CategoryElectronicsContentGrid()
-            1 -> CategoryJeweleryContentGrid()
-            2 -> CategoryMensClothingContentGrid()
-            3 -> CategoryWomenClothingContentGrid()
-        }
-
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
+        item {
             Text(
-                text = "Products",
-                fontSize = 16.sp,
+                text = "Welcome, $fullName",
+                style = MaterialTheme.typography.headlineMedium,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(end = 12.dp, bottom = 12.dp, top = 12 .dp)
             )
+        }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .clickable {}
-            ) {
-                Text(
-                    text = "See All",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color.Blue,
-                        fontWeight = FontWeight.Bold
-                    )
-                    ,
-                    modifier = Modifier.padding(12.dp)
-                )
-
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_forwards_24),
-                    contentDescription = "Right Arrow",
-                    tint = Color.Blue,
-                    modifier = Modifier
-                        .size(16.dp)
-                        .padding(start = 4.dp)
-                )
+        item {
+            ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 0.dp) {
+                tabTitles.forEachIndexed { index, title ->
+                    Tab(selected = selectedTabIndex == index,
+                        onClick = { selectedTabIndex = index },
+                        text = { Text(title) })
+                }
             }
         }
 
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .clickable {}
+                ) {
+                    Text(
+                        text = "See All",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = Color.Blue,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                        modifier = Modifier.padding(8.dp)
+                    )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            items(productItems.size) { productIndex ->
-                ProductItem(productItems[productIndex])
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_forwards_24),
+                        contentDescription = "Right Arrow",
+                        tint = Color.Blue,
+                        modifier = Modifier
+                            .size(16.dp)
+                            .padding(start = 4.dp)
+                    )
+                }
+            }
+        }
+
+        item {
+            when (selectedTabIndex) {
+                0 -> CategoryElectronicsContentGrid()
+                1 -> CategoryJeweleryContentGrid()
+                2 -> CategoryMensClothingContentGrid()
+                3 -> CategoryWomenClothingContentGrid()
+            }
+        }
+
+        item {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Products",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(end = 12.dp, bottom = 12.dp, top = 12.dp)
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .clickable {}
+                ) {
+                    Text(
+                        text = "See All",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = Color.Blue,
+                            fontWeight = FontWeight.Bold
+                        ),
+                        modifier = Modifier.padding(12.dp)
+                    )
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_forwards_24),
+                        contentDescription = "Right Arrow",
+                        tint = Color.Blue,
+                        modifier = Modifier
+                            .size(16.dp)
+                            .padding(start = 4.dp)
+                    )
+                }
+            }
+        }
+
+        item {
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                items(productItems.size) { productIndex ->
+                    ProductItem(productItems[productIndex])
+                }
             }
         }
     }
@@ -404,7 +418,6 @@ fun CategoryMensClothingItem(categoryItem: CategoryMensClothingItems) {
 }
 
 
-
 @Composable
 fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
     Card(
@@ -440,7 +453,6 @@ fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
 }
 
 
-
 @Composable
 fun ProductItem(product: Product) {
     Card(
@@ -469,12 +481,13 @@ fun ProductItem(product: Product) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(4.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp)
             )
         }
     }
 }
-
 
 
 @Preview(showBackground = true)
