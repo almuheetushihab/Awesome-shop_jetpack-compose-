@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.awesome_shop_jetpack_compose.MainActivity
 import com.example.awesome_shop_jetpack_compose.R
 import com.example.awesome_shop_jetpack_compose.data.CategoryElectronicItems
 import com.example.awesome_shop_jetpack_compose.data.CategoryJeweleryItems
@@ -61,11 +62,6 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
     var menuExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val sharedPreferenceHelper = SharedPreferenceHelper(context)
-
-    BackHandler {
-        Toast.makeText(context, "Press back again to exit", Toast.LENGTH_SHORT).show()
-    }
-
 
     Scaffold(
         topBar = {
@@ -136,6 +132,18 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
 fun HomeScreen(navController: NavController, fullName: String, modifier: Modifier = Modifier) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Electronics", "Jewelery", "Men's clothing", "Women's clothing")
+    val context = LocalContext.current
+    val activity = context as? MainActivity
+
+    BackHandler {
+        Toast.makeText(
+            context,
+            "Exiting the app...",
+            Toast.LENGTH_SHORT
+        ).show()
+        activity?.finish()
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
