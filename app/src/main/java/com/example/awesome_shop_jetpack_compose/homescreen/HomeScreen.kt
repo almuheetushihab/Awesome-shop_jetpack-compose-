@@ -1,10 +1,10 @@
 package com.example.awesome_shop_jetpack_compose.homescreen
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
@@ -62,6 +62,10 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
     val context = LocalContext.current
     val sharedPreferenceHelper = SharedPreferenceHelper(context)
 
+    BackHandler {
+        Toast.makeText(context, "Press back again to exit", Toast.LENGTH_SHORT).show()
+    }
+
 
     Scaffold(
         topBar = {
@@ -105,9 +109,9 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
                             onClick = {
                                 menuExpanded = false
                                 Toast.makeText(context, "Logout Clicked", Toast.LENGTH_SHORT).show()
+                                sharedPreferenceHelper.clearLoginData()
                                 navController.navigate("login_screen") {
                                     popUpTo("home_screen") { inclusive = true }
-                                    sharedPreferenceHelper.clearLoginData()
                                 }
                             }
                         )
@@ -132,126 +136,116 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
 fun HomeScreen(navController: NavController, fullName: String, modifier: Modifier = Modifier) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Electronics", "Jewelery", "Men's clothing", "Women's clothing")
-    LazyColumn(
+    Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.Start
     ) {
 
-        item {
-            Text(
-                text = "Welcome, $fullName",
-                style = MaterialTheme.typography.headlineMedium,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-            )
-        }
+        Text(
+            text = "Welcome, $fullName",
+            style = MaterialTheme.typography.headlineMedium,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+        )
 
-        item {
-            ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 0.dp) {
-                tabTitles.forEachIndexed { index, title ->
-                    Tab(selected = selectedTabIndex == index,
-                        onClick = { selectedTabIndex = index },
-                        text = { Text(title) })
-                }
+
+        ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 0.dp) {
+            tabTitles.forEachIndexed { index, title ->
+                Tab(selected = selectedTabIndex == index,
+                    onClick = { selectedTabIndex = index },
+                    text = { Text(title) })
             }
         }
 
-        item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .clickable {}
-                ) {
-                    Text(
-                        text = "See All",
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = Color.Blue,
-                            fontWeight = FontWeight.Bold,
-                        ),
-                        modifier = Modifier.padding(8.dp)
-                    )
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.arrow_forwards_24),
-                        contentDescription = "Right Arrow",
-                        tint = Color.Blue,
-                        modifier = Modifier
-                            .size(16.dp)
-                            .padding(start = 4.dp)
-                    )
-                }
-            }
-        }
-
-        item {
-            when (selectedTabIndex) {
-                0 -> CategoryElectronicsContentGrid()
-                1 -> CategoryJeweleryContentGrid()
-                2 -> CategoryMensClothingContentGrid()
-                3 -> CategoryWomenClothingContentGrid()
-            }
-        }
-
-        item {
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .clickable {}
             ) {
                 Text(
-                    text = "Products",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(end = 12.dp, bottom = 12.dp, top = 12.dp)
+                    text = "See All",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Color.Blue,
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    modifier = Modifier.padding(8.dp)
                 )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_forwards_24),
+                    contentDescription = "Right Arrow",
+                    tint = Color.Blue,
                     modifier = Modifier
-                        .clickable {}
-                ) {
-                    Text(
-                        text = "See All",
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = Color.Blue,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier.padding(12.dp)
-                    )
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.arrow_forwards_24),
-                        contentDescription = "Right Arrow",
-                        tint = Color.Blue,
-                        modifier = Modifier
-                            .size(16.dp)
-                            .padding(start = 4.dp)
-                    )
-                }
+                        .size(16.dp)
+                        .padding(start = 4.dp)
+                )
             }
         }
 
-        item {
+        when (selectedTabIndex) {
+            0 -> CategoryElectronicsContentGrid()
+            1 -> CategoryJeweleryContentGrid()
+            2 -> CategoryMensClothingContentGrid()
+            3 -> CategoryWomenClothingContentGrid()
+        }
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.fillMaxHeight()
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Products",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(end = 8.dp, bottom = 8.dp, top = 8.dp)
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .clickable {}
             ) {
-                items(productItems.size) { productIndex ->
-                    ProductItem(productItems[productIndex])
-                }
+                Text(
+                    text = "See All",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Color.Blue,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier.padding(8.dp)
+                )
+
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_forwards_24),
+                    contentDescription = "Right Arrow",
+                    tint = Color.Blue,
+                    modifier = Modifier
+                        .size(16.dp)
+                        .padding(start = 4.dp)
+                )
+            }
+        }
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(306.dp)
+        ) {
+            items(productItems.size) { productIndex ->
+                ProductItem(productItems[productIndex])
             }
         }
     }
@@ -263,7 +257,7 @@ fun CategoryElectronicsContentGrid() {
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier
+        modifier = Modifier.height(306.dp)
     ) {
         items(electronicsItems.size) { itemIndex ->
             CategoryElectronicItem(electronicsItems[itemIndex])
@@ -277,7 +271,7 @@ fun CategoryJeweleryContentGrid() {
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier
+        modifier = Modifier.height(306.dp)
     ) {
         items(jeweleryItems.size) { itemIndex ->
             CategoryJeweleryItem(jeweleryItems[itemIndex])
@@ -291,7 +285,7 @@ fun CategoryMensClothingContentGrid() {
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier
+        modifier = Modifier.height(306.dp)
     ) {
         items(menClothingItems.size) { itemIndex ->
             CategoryMensClothingItem(menClothingItems[itemIndex])
@@ -305,7 +299,7 @@ fun CategoryWomenClothingContentGrid() {
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier
+        modifier = Modifier.height(306.dp)
     ) {
         items(womenClothingItems.size) { itemIndex ->
             CategoryWomenClothingItem(womenClothingItems[itemIndex])
