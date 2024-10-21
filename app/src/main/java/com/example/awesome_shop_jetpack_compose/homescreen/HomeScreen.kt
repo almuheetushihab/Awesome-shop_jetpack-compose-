@@ -232,27 +232,14 @@ fun HomeScreen(navController: NavController,fullName: String, modifier: Modifier
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
             items(productItems.size) { productIndex ->
                 ProductItem(productItems[productIndex])
             }
         }
-
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            items(productItems.size) { productIndex ->
-                ProductItem(productItems[productIndex])
-            }
-        }
-
     }
 }
 
@@ -274,8 +261,8 @@ fun CategoryElectronicsContentGrid() {
 fun CategoryJeweleryContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
         modifier = Modifier
     ) {
         items(jeweleryItems.size) { itemIndex ->
@@ -288,8 +275,8 @@ fun CategoryJeweleryContentGrid() {
 fun CategoryMensClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
         modifier = Modifier
     ) {
         items(menClothingItems.size) { itemIndex ->
@@ -302,8 +289,8 @@ fun CategoryMensClothingContentGrid() {
 fun CategoryWomenClothingContentGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
         modifier = Modifier
     ) {
         items(womenClothingItems.size) { itemIndex ->
