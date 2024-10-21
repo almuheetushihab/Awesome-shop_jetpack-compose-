@@ -7,13 +7,17 @@ import androidx.navigation.compose.rememberNavController
 import com.example.awesome_shop_jetpack_compose.homescreen.HomeScreen
 import com.example.awesome_shop_jetpack_compose.homescreen.HomeScreenWithAppBar
 import com.example.awesome_shop_jetpack_compose.loginscreen.LoginScreen
+import com.example.awesome_shop_jetpack_compose.loginscreen.SplashScreen
 import com.example.awesome_shop_jetpack_compose.signupscreen.SignUpScreen
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "login_screen") {
+    NavHost(navController = navController, startDestination = "splash_screen") {
+        composable("splash_screen") {
+            SplashScreen(navController)
+        }
         composable("login_screen") {
             LoginScreen(navController)
         }
