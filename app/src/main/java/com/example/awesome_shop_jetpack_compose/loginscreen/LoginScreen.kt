@@ -1,6 +1,7 @@
 package com.example.awesome_shop_jetpack_compose.loginscreen
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -35,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.awesome_shop_jetpack_compose.MainActivity
 import com.example.awesome_shop_jetpack_compose.R
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
@@ -54,6 +56,16 @@ fun LoginScreen(navController: NavController) {
     val sharedPreferenceHelper = SharedPreferenceHelper(context)
 
     val savedLoginData = sharedPreferenceHelper.getLoginData()
+    val activity = context as? MainActivity
+
+    BackHandler {
+        Toast.makeText(
+            context,
+            "Exiting the app...",
+            Toast.LENGTH_SHORT
+        ).show()
+        activity?.finish()
+    }
 
     LaunchedEffect(Unit) {
         savedLoginData.let {

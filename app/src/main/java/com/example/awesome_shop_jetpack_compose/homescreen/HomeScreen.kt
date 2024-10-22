@@ -98,6 +98,9 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
                             onClick = {
                                 menuExpanded = false
                                 Toast.makeText(context, "Cart Clicked", Toast.LENGTH_SHORT).show()
+                                navController.navigate("cart_screen"){
+                                    popUpTo("home_screen") { inclusive = true }
+                                }
                             }
                         )
                         DropdownMenuItem(

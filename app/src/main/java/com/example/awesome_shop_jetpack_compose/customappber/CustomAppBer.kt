@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.ui.res.painterResource
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -17,16 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.awesome_shop_jetpack_compose.R
+import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomAppBar(navController: NavController, title: String) {
     val (expanded, setExpanded) = remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val sharedPreferenceHelper = SharedPreferenceHelper(context)
 
     SmallTopAppBar(
         title = {
@@ -77,6 +77,7 @@ fun CustomAppBar(navController: NavController, title: String) {
                     onClick = {
                         setExpanded(false)
                         Toast.makeText(context, "Logout Clicked", Toast.LENGTH_SHORT).show()
+                        sharedPreferenceHelper.clearLoginData()
                         navController.navigate("login_screen") {
                             popUpTo("home_screen") { inclusive = true }
                         }

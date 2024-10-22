@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.awesome_shop_jetpack_compose.cartscreen.CartScreen
 import com.example.awesome_shop_jetpack_compose.homescreen.HomeScreen
 import com.example.awesome_shop_jetpack_compose.homescreen.HomeScreenWithAppBar
 import com.example.awesome_shop_jetpack_compose.loginscreen.LoginScreen
@@ -30,6 +31,9 @@ fun AppNavigation() {
         }
         composable("product_details_screen") {
             ProductDetailsScreen(navController)
+        }
+        composable("cart_screen"){
+            CartScreen(navController)
         }
     }
 }
