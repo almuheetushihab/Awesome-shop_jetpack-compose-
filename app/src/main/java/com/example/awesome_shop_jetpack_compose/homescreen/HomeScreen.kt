@@ -54,7 +54,7 @@ import com.example.awesome_shop_jetpack_compose.data.jeweleryItems
 import com.example.awesome_shop_jetpack_compose.data.menClothingItems
 import com.example.awesome_shop_jetpack_compose.data.productItems
 import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
-import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.sharedpreferencehelp.SharedPreferenceHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,10 +1,10 @@
-package com.example.awesomeshop.networks
+package com.example.awesome_shop_jetpack_compose.networks
 
-import com.example.awesomeshop.models.cart.CartResponse
-import com.example.awesomeshop.models.login.LoginRequest
-import com.example.awesomeshop.models.login.LoginResponse
-import com.example.awesomeshop.models.product.ProductsResponse
-import com.example.awesomeshop.models.product.ProductsResponseItem
+import com.example.awesome_shop_jetpack_compose.models.cart.CartResponse
+import com.example.awesome_shop_jetpack_compose.models.login.LoginRequest
+import com.example.awesome_shop_jetpack_compose.models.login.LoginResponse
+import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponse
+import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseItem
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

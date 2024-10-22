@@ -9,6 +9,19 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 storage = "1.4.2"
+appcompat = "1.7.0"
+material = "1.12.0"
+activity = "1.9.2"
+constraintlayout = "2.1.4"
+retrofit = "2.9.0"
+coroutine = "1.5.2"
+androidx_lifecycle = "2.2.0"
+legacySupportV4 = "1.0.0"
+recyclerview = "1.3.2"
+nav_version = "2.8.1"
+hilt_version = "2.51.1"
+annotation = "1.8.2"
+lifecycleLivedataKtx = "2.8.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,9 +39,34 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+coroutine = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
+core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
+androidx-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx_lifecycle" }
+androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "nav_version" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "nav_version" }
+androidx-navigation-ui-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "nav_version" }
+androidx-navigation-ui-feature = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "nav_version" }
+androidx-navigation-ui-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "nav_version" }
+
+androidx-dagger = {group = "com.google.dagger", name = "hilt-android", version.ref = "hilt_version"}
+androidx-kapt = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt_version"}
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+
+
+
 
 [plugins]
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt_version"}
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+androidx-navigation-safe-arg = { id = "androidx.navigation.safeargs.kotlin", version.ref = "nav_version" }

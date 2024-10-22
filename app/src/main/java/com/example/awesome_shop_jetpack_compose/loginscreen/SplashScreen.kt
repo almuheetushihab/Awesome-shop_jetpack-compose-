@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.sharedpreferencehelp.SharedPreferenceHelper
 
 @Composable
 fun SplashScreen(navController: NavController) {

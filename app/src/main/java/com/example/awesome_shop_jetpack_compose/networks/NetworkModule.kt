@@ -1,4 +1,4 @@
-package com.example.awesomeshop.networks
+package com.example.awesome_shop_jetpack_compose.networks
 
 import dagger.Module
 import dagger.Provides

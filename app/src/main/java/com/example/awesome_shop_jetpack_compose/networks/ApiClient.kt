@@ -1,6 +1,7 @@
-package com.example.awesomeshop.networks
+package com.example.awesome_shop_jetpack_compose.networks
 
-import com.example.awesomeshop.utlis.Constants
+import com.example.awesome_shop_jetpack_compose.utlis.Constants
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

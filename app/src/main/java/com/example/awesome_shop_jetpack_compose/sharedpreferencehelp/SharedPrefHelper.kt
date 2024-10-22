@@ -1,4 +1,4 @@
-package com.example.awesome_shop_jetpack_compose.sharedpreference
+package com.example.awesome_shop_jetpack_compose.sharedpreferencehelp
 
 import android.content.Context
 import android.content.SharedPreferences

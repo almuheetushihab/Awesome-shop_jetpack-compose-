@@ -1,4 +1,4 @@
-package com.example.awesomeshop.models.cart
+package com.example.awesome_shop_jetpack_compose.models.cart
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.awesome_shop_jetpack_compose.R
-import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.sharedpreferencehelp.SharedPreferenceHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
