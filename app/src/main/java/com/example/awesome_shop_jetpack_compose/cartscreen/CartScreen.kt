@@ -2,8 +2,9 @@ package com.example.awesome_shop_jetpack_compose.cartscreen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,7 +20,10 @@ import com.example.awesome_shop_jetpack_compose.customappber.CustomAppBar
 
 @Composable
 fun CartScreen(navController: NavController) {
-    var quantity by remember { mutableStateOf(120) }
+    var quantity by remember { mutableStateOf(1) }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedColor by remember { mutableStateOf("Blue") }
+    val colors = listOf("Blue", "Red", "Green", "Black")
     val pricePerItem = 109.95
     val totalPrice = remember { derivedStateOf { quantity * pricePerItem } }
 
@@ -88,29 +92,70 @@ fun CartScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        modifier = Modifier.wrapContentSize(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         TextButton(
-                            onClick = { quantity++ },
-                            modifier = Modifier.size(40.dp),
-                            colors = ButtonDefaults.buttonColors(),
+                            onClick = { expanded = true },
+                            colors = ButtonDefaults.textButtonColors(),
                             shape = MaterialTheme.shapes.small
                         ) {
-                            Text(text = "-", color = Color.White, fontSize = 20.sp)
+                            Text(text = selectedColor)
+                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown Arrow")
                         }
 
-                        Spacer(modifier = Modifier.width(16.dp))
 
-                        TextButton(
-                            onClick = { quantity++ },
-                            modifier = Modifier.size(40.dp),
-                            colors = ButtonDefaults.buttonColors(),
-                            shape = MaterialTheme.shapes.small
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
                         ) {
-                            Text(text = "+", color = Color.White, fontSize = 20.sp)
+                            colors.forEach { color ->
+                                DropdownMenuItem(
+                                    text = { Text(text = color) },
+                                    onClick = {
+                                        selectedColor = color
+                                        expanded = false
+                                    }
+                                )
+
+                            }
                         }
                     }
 
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    TextButton(
+                        onClick = {
+                            if (quantity > 1) quantity--
+                        },
+                        modifier = Modifier.size(40.dp),
+                        colors = ButtonDefaults.textButtonColors()
+                    ) {
+                        Text(text = "-", fontSize = 20.sp)
+                    }
+
+
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "$quantity", fontSize = 20.sp)
+                    Spacer(modifier = Modifier.width(16.dp))
+
+
+                    TextButton(
+                        onClick = { quantity++ },
+                        modifier = Modifier.size(40.dp),
+                        colors = ButtonDefaults.textButtonColors()
+                    ) {
+                        Text(text = "+", fontSize = 20.sp)
+                    }
                 }
             }
         }
@@ -170,7 +215,10 @@ fun CartScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         TextButton(
                             onClick = { quantity++ },
@@ -251,7 +299,10 @@ fun CartScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         TextButton(
                             onClick = { quantity++ },

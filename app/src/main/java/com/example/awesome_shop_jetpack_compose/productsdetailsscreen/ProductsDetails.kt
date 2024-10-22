@@ -124,3 +124,118 @@ fun ProductDetailsScreenPreview() {
         navController = rememberNavController(),
     )
 }
+
+//
+//@Composable
+//fun CartScreen(navController: NavController) {
+//    var quantity by remember { mutableStateOf(1) }
+//    var expanded by remember { mutableStateOf(false) }
+//    var selectedColor by remember { mutableStateOf("Blue") }
+//    val colors = listOf("Blue", "Red", "Green", "Black")
+//
+//
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(16.dp)
+//            .verticalScroll(rememberScrollState()),
+//        verticalArrangement = Arrangement.Top,
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+
+//        CustomAppBar(navController, title = "Cart")
+//
+
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(top = 16.dp),
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            // Dropdown for selecting color
+//            Row(
+//                modifier = Modifier.wrapContentSize(),
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                TextButton(
+//                    onClick = { expanded = true },
+//                    colors = ButtonDefaults.textButtonColors(),
+//                    shape = MaterialTheme.shapes.small
+//                ) {
+//                    Text(text = selectedColor)
+//                    Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown Arrow")
+//                }
+//
+//
+//                DropdownMenu(
+//                    expanded = expanded,
+//                    onDismissRequest = { expanded = false }
+//                ) {
+//                    colors.forEach { color ->
+//                        DropdownMenuItem(
+//                            onClick = {
+//                                selectedColor = color
+//                                expanded = false
+//                            }
+//                        ) {
+//                            Text(text = color)
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // Quantity Buttons for increment/decrement
+//            Row(verticalAlignment = Alignment.CenterVertically) {
+//                // Decrement Button
+//                TextButton(
+//                    onClick = {
+//                        if (quantity > 1) quantity--
+//                    },
+//                    modifier = Modifier.size(40.dp),
+//                    colors = ButtonDefaults.textButtonColors()
+//                ) {
+//                    Text(text = "-", fontSize = 20.sp)
+//                }
+//
+//
+//                Spacer(modifier = Modifier.width(16.dp))
+//                Text(text = "$quantity", fontSize = 20.sp)
+//                Spacer(modifier = Modifier.width(16.dp))
+//
+//
+//                TextButton(
+//                    onClick = { quantity++ },  // বাড়িয়ে আনা
+//                    modifier = Modifier.size(40.dp),
+//                    colors = ButtonDefaults.textButtonColors()
+//                ) {
+//                    Text(text = "+", fontSize = 20.sp)
+//                }
+//            }
+//        }
+//
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        // Total price and order button section
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            Text(text = "Total Price:", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+
+//            Text(text = String.format("%.2f৳", quantity * 109.95), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+//        }
+//
+//        Spacer(modifier = Modifier.height(14.dp))
+//
+//        Button(
+//            onClick = {
+//            },
+//            modifier = Modifier.width(100.dp)
+//        ) {
+//            Text(text = "Order", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+//        }
+//    }
+//}
+
+
