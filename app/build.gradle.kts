@@ -61,8 +61,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation ("androidx.navigation:navigation-compose:2.7.3")
-    implementation ("androidx.preference:preference-ktx:1.1.1")
     implementation(libs.androidx.appcompat)
     implementation(libs.retrofit)
     implementation(libs.gson)
@@ -86,6 +84,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("androidx.navigation:navigation-compose:2.7.3")
+    implementation ("androidx.preference:preference-ktx:1.1.1")
     implementation ("com.github.bumptech.glide:glide:4.11.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 }

@@ -99,7 +99,6 @@ fun CartScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,7 +143,6 @@ fun CartScreen(navController: NavController) {
                             }
                         }
                     }
-
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
