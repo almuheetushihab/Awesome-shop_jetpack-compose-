@@ -260,18 +260,25 @@ fun LoginScreen(navController: NavController) {
             onClick = {
                 when {
                     fullName.isBlank() -> {
-                        Toast.makeText(context, "Please enter your full name", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Please enter your full name", Toast.LENGTH_SHORT)
+                            .show()
                     }
+
                     username.isBlank() -> {
-                        Toast.makeText(context, "Please enter your username", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Please enter your username", Toast.LENGTH_SHORT)
+                            .show()
                     }
+
                     password.isBlank() -> {
-                        Toast.makeText(context, "Please enter your password", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Please enter your password", Toast.LENGTH_SHORT)
+                            .show()
                     }
+
                     username == "mor2314" && password == "123456" -> {
                         sharedPreferenceHelper.saveLoginData(fullName, username, password)
                         navController.navigate("home_screen/${fullName}")
                     }
+
                     else -> {
                         Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show()
                     }

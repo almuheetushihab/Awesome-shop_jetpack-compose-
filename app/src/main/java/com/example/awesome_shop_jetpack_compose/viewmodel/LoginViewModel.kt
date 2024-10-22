@@ -23,7 +23,10 @@ class LoginViewModel @Inject constructor(
     private val _items = MutableLiveData<Response<LoginResponse>>()
     val items: LiveData<Response<LoginResponse>> = _items
 
+
+
     fun login(username: String, password: String, fullName: String) {
+
         viewModelScope.launch {
             val response = loginRepository.login(username, password)
             _items.postValue(response)
