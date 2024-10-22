@@ -18,10 +18,17 @@ class SharedPreferenceHelper(context: Context) {
         return sharedPreferences.getString("token", null)
     }
 
+    fun saveToken(token: String) {
+        sharedPreferences.edit().putString("token", token).apply()
+    }
+
     fun getFullName(): String? {
         return sharedPreferences.getString("fullName", null)
     }
 
+    fun saveFullName(fullName: String) {
+        sharedPreferences.edit().putString("fullName", fullName).apply()
+    }
 
     fun clearCredentials() {
         sharedPreferences.edit().clear().apply()

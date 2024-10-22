@@ -54,7 +54,7 @@ import com.example.awesome_shop_jetpack_compose.data.jeweleryItems
 import com.example.awesome_shop_jetpack_compose.data.menClothingItems
 import com.example.awesome_shop_jetpack_compose.data.productItems
 import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
-import com.example.awesome_shop_jetpack_compose.sharedpreferencehelp.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,7 +108,7 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
                             onClick = {
                                 menuExpanded = false
                                 Toast.makeText(context, "Logout Clicked", Toast.LENGTH_SHORT).show()
-                                sharedPreferenceHelper.clearLoginData()
+                                sharedPreferenceHelper.clearCredentials()
                                 navController.navigate("login_screen") {
                                     popUpTo("home_screen") { inclusive = true }
                                 }

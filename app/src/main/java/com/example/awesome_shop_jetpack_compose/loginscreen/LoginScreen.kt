@@ -18,6 +18,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -36,14 +37,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.awesome_shop_jetpack_compose.MainActivity
 import com.example.awesome_shop_jetpack_compose.R
-import com.example.awesome_shop_jetpack_compose.sharedpreferencehelp.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
+import com.example.awesome_shop_jetpack_compose.viewmodel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
     var fullName by rememberSaveable { mutableStateOf("") }
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -53,10 +56,9 @@ fun LoginScreen(navController: NavController) {
     var passwordError by rememberSaveable { mutableStateOf("") }
     val scrollState = rememberScrollState()
     val context = LocalContext.current
-    val sharedPreferenceHelper = SharedPreferenceHelper(context)
-
-    val savedLoginData = sharedPreferenceHelper.getLoginData()
+    val loginResponse by loginViewModel.items.observeAsState()
     val activity = context as? MainActivity
+    val sharedPreferences = SharedPreferenceHelper(context)
 
     BackHandler {
         Toast.makeText(
@@ -67,16 +69,23 @@ fun LoginScreen(navController: NavController) {
         activity?.finish()
     }
 
-    LaunchedEffect(Unit) {
-        savedLoginData.let {
-            if (it.first != null && it.second != null && it.third != null) {
-                fullName = it.first ?: ""
-                username = it.second ?: ""
-                password = it.third ?: ""
-                navController.navigate("home_screen/${fullName}")
+    LaunchedEffect(loginResponse) {
+        loginResponse?.let { response ->
+            if (response.isSuccessful) {
+                val token = response.body()?.token
+                if (token != null) {
+                    sharedPreferences.saveToken(token)
+                    sharedPreferences.saveFullName(fullName)
+                    Toast.makeText(context, "Login successful! Token: $token", Toast.LENGTH_LONG).show()
+                    navController.navigate("home_screen/${fullName}")
+                }
+            } else {
+                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+
 
     Column(
         modifier = Modifier
@@ -258,36 +267,21 @@ fun LoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-                when {
-                    fullName.isBlank() -> {
-                        Toast.makeText(context, "Please enter your full name", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    username.isBlank() -> {
-                        Toast.makeText(context, "Please enter your username", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    password.isBlank() -> {
-                        Toast.makeText(context, "Please enter your password", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    username == "mor2314" && password == "123456" -> {
-                        sharedPreferenceHelper.saveLoginData(fullName, username, password)
-                        navController.navigate("home_screen/${fullName}")
-                    }
-
-                    else -> {
-                        Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show()
-                    }
+                val isValid = validateFields(
+                    fullName, username, password,
+                    onFullNameError = { fullNameError = it },
+                    onUsernameError = { usernameError = it },
+                    onPasswordError = { passwordError = it }
+                )
+                if (isValid) {
+                    loginViewModel.login(username, password, fullName)
                 }
             },
             modifier = Modifier.size(150.dp, 40.dp)
         ) {
-            Text(text = stringResource(id = R.string.login), fontWeight = FontWeight.Bold)
+            Text(text = "Login", fontWeight = FontWeight.Bold)
         }
+
 
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -433,6 +427,6 @@ fun validateFields(
 @Composable
 fun LoginScreensPreview() {
     Awesomeshop_jetpackcomposeTheme {
-        LoginScreen(navController = NavController(LocalContext.current))
+//        LoginScreen(navController = NavController(LocalContext.current), )
     }
 }

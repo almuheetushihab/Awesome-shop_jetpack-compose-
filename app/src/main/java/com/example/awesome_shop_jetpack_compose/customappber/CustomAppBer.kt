@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.awesome_shop_jetpack_compose.R
-import com.example.awesome_shop_jetpack_compose.sharedpreferencehelp.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,7 +77,7 @@ fun CustomAppBar(navController: NavController, title: String) {
                     onClick = {
                         setExpanded(false)
                         Toast.makeText(context, "Logout Clicked", Toast.LENGTH_SHORT).show()
-                        sharedPreferenceHelper.clearLoginData()
+                        sharedPreferenceHelper.clearCredentials()
                         navController.navigate("login_screen") {
                             popUpTo("home_screen") { inclusive = true }
                         }

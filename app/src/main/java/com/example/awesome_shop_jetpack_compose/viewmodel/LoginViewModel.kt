@@ -19,7 +19,6 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
     private val sharedPreference: SharedPreferenceHelper
 ) : ViewModel() {
-
     private val _items = MutableLiveData<Response<LoginResponse>>()
     val items: LiveData<Response<LoginResponse>> = _items
 
