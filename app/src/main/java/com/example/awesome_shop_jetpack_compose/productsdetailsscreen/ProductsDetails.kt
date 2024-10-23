@@ -12,6 +12,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,15 +23,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.awesome_shop_jetpack_compose.R
 import com.example.awesome_shop_jetpack_compose.customappber.CustomAppBar
+import com.example.awesome_shop_jetpack_compose.viewmodel.ProductDetailsViewModel
 
 @Composable
 fun ProductDetailsScreen(
     navController: NavController,
+    productId: String?
 ) {
+    val viewModel: ProductDetailsViewModel = hiltViewModel()
+    val productDetails by viewModel.items.observeAsState()
+
+    LaunchedEffect(productId) {
+        productId?.toIntOrNull()?.let {
+            viewModel.getProductDetails(it)
+        }
+    }
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -116,126 +131,10 @@ fun ProductDetailsScreen(
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun ProductDetailsScreenPreview() {
-    ProductDetailsScreen(
-        navController = rememberNavController(),
-    )
-}
-
-//
+//@Preview(showBackground = true)
 //@Composable
-//fun CartScreen(navController: NavController) {
-//    var quantity by remember { mutableStateOf(1) }
-//    var expanded by remember { mutableStateOf(false) }
-//    var selectedColor by remember { mutableStateOf("Blue") }
-//    val colors = listOf("Blue", "Red", "Green", "Black")
-//
-//
-//    Column(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(16.dp)
-//            .verticalScroll(rememberScrollState()),
-//        verticalArrangement = Arrangement.Top,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-
-//        CustomAppBar(navController, title = "Cart")
-//
-
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(top = 16.dp),
-//            horizontalArrangement = Arrangement.SpaceBetween,
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            // Dropdown for selecting color
-//            Row(
-//                modifier = Modifier.wrapContentSize(),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                TextButton(
-//                    onClick = { expanded = true },
-//                    colors = ButtonDefaults.textButtonColors(),
-//                    shape = MaterialTheme.shapes.small
-//                ) {
-//                    Text(text = selectedColor)
-//                    Icon(Icons.Default.ArrowDropDown, contentDescription = "Dropdown Arrow")
-//                }
-//
-//
-//                DropdownMenu(
-//                    expanded = expanded,
-//                    onDismissRequest = { expanded = false }
-//                ) {
-//                    colors.forEach { color ->
-//                        DropdownMenuItem(
-//                            onClick = {
-//                                selectedColor = color
-//                                expanded = false
-//                            }
-//                        ) {
-//                            Text(text = color)
-//                        }
-//                    }
-//                }
-//            }
-//
-//            // Quantity Buttons for increment/decrement
-//            Row(verticalAlignment = Alignment.CenterVertically) {
-//                // Decrement Button
-//                TextButton(
-//                    onClick = {
-//                        if (quantity > 1) quantity--
-//                    },
-//                    modifier = Modifier.size(40.dp),
-//                    colors = ButtonDefaults.textButtonColors()
-//                ) {
-//                    Text(text = "-", fontSize = 20.sp)
-//                }
-//
-//
-//                Spacer(modifier = Modifier.width(16.dp))
-//                Text(text = "$quantity", fontSize = 20.sp)
-//                Spacer(modifier = Modifier.width(16.dp))
-//
-//
-//                TextButton(
-//                    onClick = { quantity++ },  // বাড়িয়ে আনা
-//                    modifier = Modifier.size(40.dp),
-//                    colors = ButtonDefaults.textButtonColors()
-//                ) {
-//                    Text(text = "+", fontSize = 20.sp)
-//                }
-//            }
-//        }
-//
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        // Total price and order button section
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            Text(text = "Total Price:", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-
-//            Text(text = String.format("%.2f৳", quantity * 109.95), fontSize = 16.sp, fontWeight = FontWeight.Bold)
-//        }
-//
-//        Spacer(modifier = Modifier.height(14.dp))
-//
-//        Button(
-//            onClick = {
-//            },
-//            modifier = Modifier.width(100.dp)
-//        ) {
-//            Text(text = "Order", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-//        }
-//    }
+//fun ProductDetailsScreenPreview() {
+//    ProductDetailsScreen(
+//        navController = rememberNavController(),
+//    )
 //}
-
-

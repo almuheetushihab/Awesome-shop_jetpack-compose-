@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,7 +57,6 @@ import com.example.awesome_shop_jetpack_compose.data.electronicsItems
 import com.example.awesome_shop_jetpack_compose.data.jeweleryItems
 import com.example.awesome_shop_jetpack_compose.data.menClothingItems
 import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
-import com.example.awesome_shop_jetpack_compose.models.cart.Product
 import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseItem
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 import com.example.awesome_shop_jetpack_compose.viewmodel.ProductViewModel
@@ -271,7 +271,7 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(306.dp)
+                .height(450.dp)
         ) {
             items(productsResponse?.size ?: 0) { index ->
                 val product = productsResponse?.get(index)
@@ -512,15 +512,12 @@ fun ProductItem(product: ProductsResponseItem, onClick: () -> Unit) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(4.dp)
-            )
-            Text(
-                text = product.price.toString(),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
+                    .height(80.dp)
             )
         }
     }

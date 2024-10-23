@@ -35,8 +35,9 @@ fun AppNavigation(context: Context) {
             val fullName = backStackEntry.arguments?.getString("fullName") ?: "User"
             HomeScreenWithAppBar(navController, fullName)
         }
-        composable("product_details_screen") {
-            ProductDetailsScreen(navController)
+        composable("product_details_screen/{productId}") { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId")?.toIntOrNull()
+            ProductDetailsScreen(navController, productId)
         }
         composable("cart_screen") {
             CartScreen(navController)
