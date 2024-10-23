@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.awesome_shop_jetpack_compose.MainActivity
 import com.example.awesome_shop_jetpack_compose.R
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
@@ -84,8 +83,6 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
             }
         }
     }
-
-
 
     Column(
         modifier = Modifier
@@ -281,8 +278,6 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
         ) {
             Text(text = "Login", fontWeight = FontWeight.Bold)
         }
-
-
 
         Spacer(modifier = Modifier.height(12.dp))
 

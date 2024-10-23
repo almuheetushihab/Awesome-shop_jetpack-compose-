@@ -26,7 +26,9 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,21 +42,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil3.compose.AsyncImage
 import com.example.awesome_shop_jetpack_compose.MainActivity
 import com.example.awesome_shop_jetpack_compose.R
 import com.example.awesome_shop_jetpack_compose.data.CategoryElectronicItems
 import com.example.awesome_shop_jetpack_compose.data.CategoryJeweleryItems
 import com.example.awesome_shop_jetpack_compose.data.CategoryMensClothingItems
 import com.example.awesome_shop_jetpack_compose.data.CategoryWomenClothingItems
-import com.example.awesome_shop_jetpack_compose.data.Product
 import com.example.awesome_shop_jetpack_compose.data.electronicsItems
 import com.example.awesome_shop_jetpack_compose.data.jeweleryItems
 import com.example.awesome_shop_jetpack_compose.data.menClothingItems
-import com.example.awesome_shop_jetpack_compose.data.productItems
 import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
+import com.example.awesome_shop_jetpack_compose.models.cart.Product
+import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseItem
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.viewmodel.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,6 +67,8 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
     var menuExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val sharedPreferenceHelper = SharedPreferenceHelper(context)
+
+
 
     Scaffold(
         topBar = {
@@ -98,7 +105,7 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
                             onClick = {
                                 menuExpanded = false
                                 Toast.makeText(context, "Cart Clicked", Toast.LENGTH_SHORT).show()
-                                navController.navigate("cart_screen"){
+                                navController.navigate("cart_screen") {
                                     popUpTo("home_screen") { inclusive = true }
                                 }
                             }
@@ -132,11 +139,17 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
 
 
 @Composable
-fun HomeScreen(navController: NavController, fullName: String, modifier: Modifier = Modifier) {
+fun HomeScreen(
+    navController: NavController,
+    fullName: String,
+    productViewModel: ProductViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
+) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Electronics", "Jewelery", "Men's clothing", "Women's clothing")
     val context = LocalContext.current
     val activity = context as? MainActivity
+    val productsResponse by productViewModel.items.observeAsState()
 
     BackHandler {
         Toast.makeText(
@@ -145,6 +158,11 @@ fun HomeScreen(navController: NavController, fullName: String, modifier: Modifie
             Toast.LENGTH_SHORT
         ).show()
         activity?.finish()
+    }
+
+    LaunchedEffect(Unit) {
+        productViewModel.getProducts()
+
     }
 
     Column(
@@ -255,9 +273,12 @@ fun HomeScreen(navController: NavController, fullName: String, modifier: Modifie
                 .fillMaxWidth()
                 .height(306.dp)
         ) {
-            items(productItems.size) { productIndex ->
-                ProductItem(productItems[productIndex]) {
-                    navController.navigate("product_details_screen")
+            items(productsResponse?.size ?: 0) { index ->
+                val product = productsResponse?.get(index)
+                if (product != null) {
+                    ProductItem(product = product) {
+                        navController.navigate("detail_screen/${product.id}")
+                    }
                 }
             }
         }
@@ -462,7 +483,7 @@ fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
 
 
 @Composable
-fun ProductItem(product: Product, onClick: () -> Unit) {
+fun ProductItem(product: ProductsResponseItem, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(6.dp)
@@ -477,8 +498,9 @@ fun ProductItem(product: Product, onClick: () -> Unit) {
             modifier = Modifier.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = product.imageRes),
+          val image = product.image
+            AsyncImage(
+                model = image,
                 contentDescription = product.title,
                 modifier = Modifier
                     .width(100.dp)
@@ -494,10 +516,15 @@ fun ProductItem(product: Product, onClick: () -> Unit) {
                     .fillMaxWidth()
                     .padding(4.dp)
             )
+            Text(
+                text = product.price.toString(),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
-
 
 
 @Preview(showBackground = true)

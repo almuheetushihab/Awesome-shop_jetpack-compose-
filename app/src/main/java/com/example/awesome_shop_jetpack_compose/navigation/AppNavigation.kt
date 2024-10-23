@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.awesome_shop_jetpack_compose.cartscreen.CartScreen
-import com.example.awesome_shop_jetpack_compose.homescreen.HomeScreen
 import com.example.awesome_shop_jetpack_compose.homescreen.HomeScreenWithAppBar
 import com.example.awesome_shop_jetpack_compose.loginscreen.LoginScreen
 import com.example.awesome_shop_jetpack_compose.loginscreen.SplashScreen
@@ -19,7 +18,7 @@ import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenc
 @Composable
 fun AppNavigation(context: Context) {
     val navController = rememberNavController()
-
+    val loginViewModel = hiltViewModel<LoginViewModel>()
     val sharedPreferences = SharedPreferenceHelper(context)
 
     NavHost(navController = navController, startDestination = "splash_screen") {
@@ -27,7 +26,6 @@ fun AppNavigation(context: Context) {
             SplashScreen(navController = navController, sharedPreferences = sharedPreferences)
         }
         composable("login_screen") {
-            val loginViewModel = hiltViewModel<LoginViewModel>()
             LoginScreen(navController, loginViewModel)
         }
         composable("signup_screen") {

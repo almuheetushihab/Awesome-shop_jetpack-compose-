@@ -11,9 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.awesome_shop_jetpack_compose.loginscreen.LoginScreen
 import com.example.awesome_shop_jetpack_compose.navigation.AppNavigation
-import com.example.awesome_shop_jetpack_compose.signupscreen.SignUpScreen
 import com.example.awesome_shop_jetpack_compose.ui.theme.Awesomeshop_jetpackcomposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
