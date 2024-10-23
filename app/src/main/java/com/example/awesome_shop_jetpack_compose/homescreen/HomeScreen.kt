@@ -498,7 +498,7 @@ fun ProductItem(product: ProductsResponseItem, onClick: () -> Unit) {
             modifier = Modifier.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-          val image = product.image
+            val image = product.image
             AsyncImage(
                 model = image,
                 contentDescription = product.title,
