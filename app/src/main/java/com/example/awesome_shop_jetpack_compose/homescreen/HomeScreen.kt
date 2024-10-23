@@ -277,7 +277,7 @@ fun HomeScreen(
                 val product = productsResponse?.get(index)
                 if (product != null) {
                     ProductItem(product = product) {
-                        navController.navigate("detail_screen/${product.id}")
+                        navController.navigate("product_details_screen/${product.id}")
                     }
                 }
             }
@@ -488,7 +488,7 @@ fun ProductItem(product: ProductsResponseItem, onClick: () -> Unit) {
         modifier = Modifier
             .padding(6.dp)
             .wrapContentSize()
-            .clickable { onClick() },
+            .clickable {onClick()},
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),

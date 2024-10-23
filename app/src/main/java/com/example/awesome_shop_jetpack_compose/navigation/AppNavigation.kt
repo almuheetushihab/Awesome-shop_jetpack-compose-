@@ -37,7 +37,7 @@ fun AppNavigation(context: Context) {
         }
         composable("product_details_screen/{productId}") { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId")?.toIntOrNull()
-            ProductDetailsScreen(navController, productId)
+            ProductDetailsScreen(navController, productId.toString())
         }
         composable("cart_screen") {
             CartScreen(navController)
