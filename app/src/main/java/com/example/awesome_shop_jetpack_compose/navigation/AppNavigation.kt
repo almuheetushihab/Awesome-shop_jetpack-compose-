@@ -14,11 +14,13 @@ import com.example.awesome_shop_jetpack_compose.signupscreen.SignUpScreen
 import com.example.awesome_shop_jetpack_compose.viewmodel.LoginViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.viewmodel.CartViewModel
 
 @Composable
 fun AppNavigation(context: Context) {
     val navController = rememberNavController()
     val loginViewModel = hiltViewModel<LoginViewModel>()
+    val cartViewModel = hiltViewModel<CartViewModel>()
     val sharedPreferences = SharedPreferenceHelper(context)
 
     NavHost(navController = navController, startDestination = "splash_screen") {

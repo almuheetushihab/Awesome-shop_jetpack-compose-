@@ -13,6 +13,8 @@ import javax.inject.Inject
 class CartViewModel @Inject constructor(private val cartRepository: CartRepository) : ViewModel() {
     val items = MutableLiveData<List<ProductsResponseItem>>()
 
+
+
     fun cartData(cartId: Int) {
         viewModelScope.launch {
             val response = cartRepository.getCart(cartId)
@@ -36,6 +38,7 @@ class CartViewModel @Inject constructor(private val cartRepository: CartReposito
             }
         }
     }
+
 }
 
 
