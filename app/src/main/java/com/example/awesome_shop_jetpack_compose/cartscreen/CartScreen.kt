@@ -33,7 +33,7 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
     val cartItems by cartViewModel.items.observeAsState(emptyList())
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        cartViewModel.cartData(cartId = 5)
+        cartViewModel.cartData(cartId = 1)
     }
     Column(
         modifier = Modifier
@@ -48,7 +48,9 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
             cartItems.forEach { product ->
                 CartItemCard(product)
             }
+
             val totalPrice = cartItems.sumOf { it.price * it.rating.count }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -97,7 +99,7 @@ fun CartItemCard(product: ProductsResponseItem) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = "Product Name: ${product.title}",
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -106,49 +108,42 @@ fun CartItemCard(product: ProductsResponseItem) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Price:", fontSize = 16.sp)
-                Text(text = "${product.price}৳", fontSize = 16.sp)
+                Text(text = "Price:", fontSize = 14.sp)
+                Text(text = "${product.price}৳", fontSize = 14.sp)
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Quantity:", fontSize = 16.sp)
+
+                Text(text = "Quantity:", fontSize = 14.sp)
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "$quantity pcs", fontSize = 16.sp)
-
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "$quantity pcs", fontSize = 14.sp)
                 }
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Total:", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Total:", fontSize = 14.sp, fontWeight = FontWeight.Bold)
                 Text(
                     text = String.format("%.1f৳", totalPrice),
-                    fontSize = 16.sp,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
+                    .padding(top = 14.dp),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -166,6 +161,7 @@ fun CartItemCard(product: ProductsResponseItem) {
                             .background(color = Color.White)
                     ) {
                         Text(text = selectedColor)
+
                         Spacer(modifier = Modifier.width(30.dp))
 
                         Icon(
@@ -226,5 +222,11 @@ fun CartItemCard(product: ProductsResponseItem) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CartScreenPreview() {
+    CartScreen(navController = rememberNavController())
 }
 
