@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.awesome_shop_jetpack_compose.customappber.CartTopAppBar
 import com.example.awesome_shop_jetpack_compose.customappber.CustomAppBar
 import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseItem
 import com.example.awesome_shop_jetpack_compose.viewmodel.CartViewModel
@@ -41,63 +42,71 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
     LaunchedEffect(Unit) {
         cartViewModel.cartData(cartId = 1)
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CustomAppBar(navController, title = "Cart")
 
-        if (cartItems.isNotEmpty()) {
-            cartItems.forEach { product ->
-                CartItemCard(product) { newQuantity ->
-                    val updatedItems = cartItems.map {
-                        if (it.id == product.id) {
-                            it.copy(rating = it.rating.copy(count = newQuantity))
-                        } else it
+    Scaffold(
+        topBar = {
+            CartTopAppBar(navController, title = "Cart")
+        },
+        content = { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                if (cartItems.isNotEmpty()) {
+                    cartItems.forEach { product ->
+                        CartItemCard(product) { newQuantity ->
+                            val updatedItems = cartItems.map {
+                                if (it.id == product.id) {
+                                    it.copy(rating = it.rating.copy(count = newQuantity))
+                                } else it
+                            }
+                            cartViewModel.items.value = updatedItems
+                            totalPrice = updatedItems.sumOf { it.price * it.rating.count }
+                        }
                     }
-                    cartViewModel.items.value = updatedItems
-                    totalPrice = updatedItems.sumOf { it.price * it.rating.count }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(text = "Total Price:", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        Text(
+                            text = String.format("%.2f৳", totalPrice),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    Button(
+                        onClick = {
+                            Toast.makeText(context, "Order Placed Successfully!", Toast.LENGTH_SHORT).show()
+                            navController.popBackStack()
+                        },
+                        modifier = Modifier.width(100.dp)
+                    ) {
+                        Text(text = "Order", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                } else {
+                    CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                    Text(text = "Loading cart items...", modifier = Modifier.padding(16.dp))
                 }
             }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = "Total Price:", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                Text(
-                    text = String.format("%.2f৳", totalPrice),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            Button(
-                onClick = {
-                    Toast.makeText(context, "Order Placed Successfully!", Toast.LENGTH_SHORT).show()
-                    navController.popBackStack()
-                },
-                modifier = Modifier.width(100.dp)
-            ) {
-                Text(text = "Order", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-        } else {
-            CircularProgressIndicator(modifier = Modifier.padding(16.dp))
-            Text(text = "Loading cart items...", modifier = Modifier.padding(16.dp))
         }
-    }
+    )
 }
 
 @Composable
-fun CartItemCard(product: ProductsResponseItem,onQuantityChange: (Int) -> Unit) {
+fun CartItemCard(product: ProductsResponseItem, onQuantityChange: (Int) -> Unit) {
     var quantity by remember { mutableStateOf(product.rating.count) }
     val totalPrice by remember { derivedStateOf { quantity * product.price } }
     var expanded by remember { mutableStateOf(false) }
