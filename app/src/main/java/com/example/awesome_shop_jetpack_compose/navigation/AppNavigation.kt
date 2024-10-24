@@ -13,6 +13,7 @@ import com.example.awesome_shop_jetpack_compose.productsdetailsscreen.ProductDet
 import com.example.awesome_shop_jetpack_compose.signupscreen.SignUpScreen
 import com.example.awesome_shop_jetpack_compose.viewmodel.LoginViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.awesome_shop_jetpack_compose.homescreen.ProductListScreen
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 import com.example.awesome_shop_jetpack_compose.viewmodel.CartViewModel
 
@@ -43,6 +44,17 @@ fun AppNavigation(context: Context) {
         }
         composable("cart_screen") {
             CartScreen(navController)
+        }
+
+        composable("all_products_screen") {
+            // Assuming you have a full product list (replace `productList` with your actual data source)
+            ProductListScreen(
+                navController = navController,
+                products = emptyList(), // Pass the full product list here
+                navigateToProductDetails = { productId ->
+                    navController.navigate("product_details_screen/$productId")
+                }
+            )
         }
     }
 }

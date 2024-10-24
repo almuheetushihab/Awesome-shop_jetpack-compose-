@@ -5,6 +5,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
@@ -45,7 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.awesome_shop_jetpack_compose.MainActivity
 import com.example.awesome_shop_jetpack_compose.R
@@ -54,11 +54,15 @@ import com.example.awesome_shop_jetpack_compose.data.CategoryJeweleryItems
 import com.example.awesome_shop_jetpack_compose.data.CategoryMensClothingItems
 import com.example.awesome_shop_jetpack_compose.data.CategoryWomenClothingItems
 import com.example.awesome_shop_jetpack_compose.data.electronicsItems
+import com.example.awesome_shop_jetpack_compose.data.getProductResponse
 import com.example.awesome_shop_jetpack_compose.data.jeweleryItems
 import com.example.awesome_shop_jetpack_compose.data.menClothingItems
 import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
+import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponse
 import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseItem
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
+import com.example.awesome_shop_jetpack_compose.viewmodel.CategoriesViewModel
+import com.example.awesome_shop_jetpack_compose.viewmodel.CategoryWiseProductViewModel
 import com.example.awesome_shop_jetpack_compose.viewmodel.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,8 +71,6 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
     var menuExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val sharedPreferenceHelper = SharedPreferenceHelper(context)
-
-
 
     Scaffold(
         topBar = {
@@ -129,27 +131,74 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
             )
         }
     ) { paddingValues ->
-        HomeScreen(
-            navController = navController,
-            modifier = Modifier.padding(paddingValues),
-            fullName = fullName
-        )
+        Column(modifier = Modifier.padding(paddingValues)) {
+            HomeScreen(
+                navController = navController,
+                modifier = Modifier.padding(paddingValues),
+                fullName = fullName
+            )
+        }
     }
 }
-
 
 @Composable
 fun HomeScreen(
     navController: NavController,
     fullName: String,
     productViewModel: ProductViewModel = hiltViewModel(),
+    categoriesViewModel: CategoriesViewModel = hiltViewModel(),
+    categoryWiseProductViewModel: CategoryWiseProductViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
+    LaunchedEffect(Unit) {
+        productViewModel.getProducts()
+
+    }
     var selectedTabIndex by remember { mutableStateOf(0) }
-    val tabTitles = listOf("Electronics", "Jewelery", "Men's clothing", "Women's clothing")
+    val productsResponse by productViewModel.items.observeAsState()
+    val categories by categoriesViewModel.items.observeAsState()
+    val products by categoryWiseProductViewModel.items.observeAsState()
+
+    LaunchedEffect(Unit) {
+        categoriesViewModel.getCategories()
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        categories?.get(selectedTabIndex)?.let { category ->
+            categoryWiseProductViewModel.getCategoryWiseProducts(category)
+        }
+    }
+
+
+
+    HomeScreenSkeleton(
+        fullName = fullName,
+        tabTitle = categories ?: emptyList(),
+        selectedTabIndex = selectedTabIndex,
+        product = productsResponse,
+        onTabSelected = { index -> selectedTabIndex = index },
+        products = products,
+        navigateToProductDetails = {
+            navController.navigate("product_details_screen/${it}")
+        }
+
+    )
+}
+
+@Composable
+fun HomeScreenSkeleton(
+    fullName: String,
+    tabTitle: List<String>,
+    selectedTabIndex: Int,
+    onTabSelected: (Int) -> Unit,
+    products: List<ProductsResponseItem>?,
+    product: ProductsResponse?,
+    navigateToProductDetails: (Int) -> Unit,
+
+    modifier: Modifier = Modifier
+) {
     val context = LocalContext.current
     val activity = context as? MainActivity
-    val productsResponse by productViewModel.items.observeAsState()
 
     BackHandler {
         Toast.makeText(
@@ -160,10 +209,6 @@ fun HomeScreen(
         activity?.finish()
     }
 
-    LaunchedEffect(Unit) {
-        productViewModel.getProducts()
-
-    }
 
     Column(
         modifier = modifier
@@ -181,13 +226,24 @@ fun HomeScreen(
             modifier = Modifier
         )
 
-
-        ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 0.dp) {
-            tabTitles.forEachIndexed { index, title ->
-                Tab(selected = selectedTabIndex == index,
-                    onClick = { selectedTabIndex = index },
-                    text = { Text(title) })
+        if (tabTitle.isNotEmpty()) {
+            ScrollableTabRow(selectedTabIndex = selectedTabIndex, edgePadding = 0.dp) {
+                tabTitle.forEachIndexed { index, title ->
+                    Tab(
+                        selected = selectedTabIndex == index,
+                        onClick = {
+                            onTabSelected(index)
+                        },
+                        text = { Text(title) }
+                    )
+                }
             }
+        } else {
+            Text(
+                text = "No categories available",
+                color = Color.Gray,
+                modifier = Modifier.padding(16.dp)
+            )
         }
 
         Row(
@@ -220,11 +276,27 @@ fun HomeScreen(
             }
         }
 
-        when (selectedTabIndex) {
-            0 -> CategoryElectronicsContentGrid()
-            1 -> CategoryJeweleryContentGrid()
-            2 -> CategoryMensClothingContentGrid()
-            3 -> CategoryWomenClothingContentGrid()
+
+        if (!products.isNullOrEmpty()) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            ) {
+                items(products.size) { index ->
+                    val product = products[index]
+                    ProductItem(product = product) {
+                        navigateToProductDetails(product.id)
+                    }
+                }
+            }
+        } else {
+            Text(
+                text = "No products available for this category",
+                modifier = Modifier.padding(16.dp),
+                color = Color.Gray
+            )
         }
 
 
@@ -244,7 +316,8 @@ fun HomeScreen(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .clickable {}
+                    .clickable {
+                    }
             ) {
                 Text(
                     text = "See All",
@@ -265,6 +338,7 @@ fun HomeScreen(
                 )
             }
         }
+
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -273,259 +347,33 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .height(450.dp)
         ) {
-            items(productsResponse?.size ?: 0) { index ->
-                val product = productsResponse?.get(index)
+            items(product?.size ?: 0) { index ->
+                val product = product?.get(index)
                 if (product != null) {
                     ProductItem(product = product) {
-                        navController.navigate("product_details_screen/${product.id}")
+                        navigateToProductDetails(product.id)
                     }
                 }
             }
         }
 
-    }
-}
-
-@Composable
-fun CategoryElectronicsContentGrid() {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.height(306.dp)
-    ) {
-        items(electronicsItems.size) { itemIndex ->
-            CategoryElectronicItem(electronicsItems[itemIndex])
-        }
-    }
-}
-
-@Composable
-fun CategoryJeweleryContentGrid() {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.height(306.dp)
-    ) {
-        items(jeweleryItems.size) { itemIndex ->
-            CategoryJeweleryItem(jeweleryItems[itemIndex])
-        }
-    }
-}
-
-@Composable
-fun CategoryMensClothingContentGrid() {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.height(306.dp)
-    ) {
-        items(menClothingItems.size) { itemIndex ->
-            CategoryMensClothingItem(menClothingItems[itemIndex])
-        }
-    }
-}
-
-@Composable
-fun CategoryWomenClothingContentGrid() {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.height(306.dp)
-    ) {
-        items(womenClothingItems.size) { itemIndex ->
-            CategoryWomenClothingItem(womenClothingItems[itemIndex])
-        }
-    }
-}
-
-@Composable
-fun CategoryElectronicItem(categoryItem: CategoryElectronicItems) {
-    Card(
-        modifier = Modifier
-            .padding(6.dp)
-            .wrapContentSize(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(1.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = categoryItem.imageRes),
-                contentDescription = categoryItem.title,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-            )
-
-            Text(
-                text = categoryItem.title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
-}
 
 
-@Composable
-fun CategoryJeweleryItem(categoryItem: CategoryJeweleryItems) {
-    Card(
-        modifier = Modifier
-            .padding(6.dp)
-            .wrapContentSize(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(1.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = categoryItem.imageRes),
-                contentDescription = categoryItem.title,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-            )
 
-            Text(
-                text = categoryItem.title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
-}
-
-
-@Composable
-fun CategoryMensClothingItem(categoryItem: CategoryMensClothingItems) {
-    Card(
-        modifier = Modifier
-            .padding(6.dp)
-            .wrapContentSize(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(1.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = categoryItem.imageRes),
-                contentDescription = categoryItem.title,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-            )
-
-            Text(
-                text = categoryItem.title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
-}
-
-
-@Composable
-fun CategoryWomenClothingItem(categoryItem: CategoryWomenClothingItems) {
-    Card(
-        modifier = Modifier
-            .padding(6.dp)
-            .wrapContentSize(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(1.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = categoryItem.imageRes),
-                contentDescription = categoryItem.title,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-            )
-
-            Text(
-                text = categoryItem.title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
-}
-
-
-@Composable
-fun ProductItem(product: ProductsResponseItem, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .padding(6.dp)
-            .wrapContentSize()
-            .clickable {onClick()},
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            val image = product.image
-            AsyncImage(
-                model = image,
-                contentDescription = product.title,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-            )
-
-            Text(
-                text = product.title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp)
-                    .height(80.dp)
-            )
-        }
     }
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewHomeScreen() {
-    HomeScreen(navController = rememberNavController(), fullName = "")
+fun HomeScreenSkeletonPreview() {
+    HomeScreenSkeleton(
+        fullName = "John DOE",
+        tabTitle = listOf("Electronics", "Jewelery", "Men's clothing", "Women's clothing"),
+        product = getProductResponse(),
+        navigateToProductDetails = {},
+        selectedTabIndex = 0,
+        onTabSelected = {},
+        products = emptyList()
+    )
 }
