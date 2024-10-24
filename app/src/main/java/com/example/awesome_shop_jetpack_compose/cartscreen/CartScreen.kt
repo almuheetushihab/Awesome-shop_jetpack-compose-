@@ -32,6 +32,12 @@ import com.example.awesome_shop_jetpack_compose.viewmodel.CartViewModel
 fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hiltViewModel()) {
     val cartItems by cartViewModel.items.observeAsState(emptyList())
     val context = LocalContext.current
+    var totalPrice by remember { mutableStateOf(0.0) }
+
+    LaunchedEffect(cartItems) {
+        totalPrice = cartItems.sumOf { it.price * it.rating.count }
+    }
+
     LaunchedEffect(Unit) {
         cartViewModel.cartData(cartId = 1)
     }
@@ -46,10 +52,16 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
 
         if (cartItems.isNotEmpty()) {
             cartItems.forEach { product ->
-                CartItemCard(product)
+                CartItemCard(product) { newQuantity ->
+                    val updatedItems = cartItems.map {
+                        if (it.id == product.id) {
+                            it.copy(rating = it.rating.copy(count = newQuantity))
+                        } else it
+                    }
+                    cartViewModel.items.value = updatedItems
+                    totalPrice = updatedItems.sumOf { it.price * it.rating.count }
+                }
             }
-
-            val totalPrice = cartItems.sumOf { it.price * it.rating.count }
 
             Row(
                 modifier = Modifier
@@ -65,8 +77,6 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
                 )
             }
 
-            Spacer(modifier = Modifier.height(14.dp))
-
             Button(
                 onClick = {
                     Toast.makeText(context, "Order Placed Successfully!", Toast.LENGTH_SHORT).show()
@@ -76,6 +86,9 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
             ) {
                 Text(text = "Order", fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
         } else {
             CircularProgressIndicator(modifier = Modifier.padding(16.dp))
             Text(text = "Loading cart items...", modifier = Modifier.padding(16.dp))
@@ -84,7 +97,7 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
 }
 
 @Composable
-fun CartItemCard(product: ProductsResponseItem) {
+fun CartItemCard(product: ProductsResponseItem,onQuantityChange: (Int) -> Unit) {
     var quantity by remember { mutableStateOf(product.rating.count) }
     val totalPrice by remember { derivedStateOf { quantity * product.price } }
     var expanded by remember { mutableStateOf(false) }
@@ -197,7 +210,10 @@ fun CartItemCard(product: ProductsResponseItem) {
                 ) {
                     TextButton(
                         onClick = {
-                            if (quantity > 1) quantity--
+                            if (quantity > 1) {
+                                quantity--
+                                onQuantityChange(quantity)
+                            }
                         },
                         modifier = Modifier.size(40.dp),
                         colors = ButtonDefaults.textButtonColors()
@@ -212,7 +228,10 @@ fun CartItemCard(product: ProductsResponseItem) {
                     Spacer(modifier = Modifier.width(16.dp))
 
                     TextButton(
-                        onClick = { quantity++ },
+                        onClick = {
+                            quantity++
+                            onQuantityChange(quantity)
+                        },
                         modifier = Modifier.size(40.dp),
                         colors = ButtonDefaults.textButtonColors()
                     ) {
