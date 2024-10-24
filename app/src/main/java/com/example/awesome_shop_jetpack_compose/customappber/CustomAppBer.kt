@@ -69,7 +69,9 @@ fun CustomAppBar(navController: NavController, title: String) {
                     text = { Text("Cart") },
                     onClick = {
                         setExpanded(false)
-                        Toast.makeText(context, "Cart Clicked", Toast.LENGTH_SHORT).show()
+                        navController.navigate("cart_screen"){
+                            popUpTo("home_screen") { inclusive = true }
+                        }
                     }
                 )
                 DropdownMenuItem(

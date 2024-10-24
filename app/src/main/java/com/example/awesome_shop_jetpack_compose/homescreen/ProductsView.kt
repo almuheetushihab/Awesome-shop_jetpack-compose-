@@ -27,7 +27,7 @@ fun ProductItem(product: ProductsResponseItem, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(6.dp)
-            .width(200.dp)
+            .width(170.dp)
             .wrapContentSize()
             .clickable {onClick()},
         colors = CardDefaults.cardColors(
@@ -50,8 +50,7 @@ fun ProductItem(product: ProductsResponseItem, onClick: () -> Unit) {
 
             Text(
                 text = product.title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 13.sp,
                 textAlign = TextAlign.Center,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,

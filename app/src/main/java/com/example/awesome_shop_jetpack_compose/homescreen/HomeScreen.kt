@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.awesome_shop_jetpack_compose.MainActivity
 import com.example.awesome_shop_jetpack_compose.R
@@ -170,7 +171,6 @@ fun HomeScreen(
     }
 
 
-
     HomeScreenSkeleton(
         fullName = fullName,
         tabTitle = categories ?: emptyList(),
@@ -180,9 +180,10 @@ fun HomeScreen(
         products = products,
         navigateToProductDetails = {
             navController.navigate("product_details_screen/${it}")
-        }
-
+        },
+        navController = navController
     )
+
 }
 
 @Composable
@@ -194,7 +195,7 @@ fun HomeScreenSkeleton(
     products: List<ProductsResponseItem>?,
     product: ProductsResponse?,
     navigateToProductDetails: (Int) -> Unit,
-
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -253,14 +254,17 @@ fun HomeScreenSkeleton(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .clickable {}
+                modifier = Modifier.clickable {
+                    navController.navigate("category_screen/${tabTitle[selectedTabIndex]}") {
+                        popUpTo("home_screen") { inclusive = false }
+                    }
+                }
             ) {
                 Text(
                     text = "See All",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color.Blue,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Bold
                     ),
                     modifier = Modifier.padding(8.dp)
                 )
@@ -274,6 +278,7 @@ fun HomeScreenSkeleton(
                         .padding(start = 4.dp)
                 )
             }
+
         }
 
 
@@ -347,7 +352,7 @@ fun HomeScreenSkeleton(
                 .fillMaxWidth()
                 .height(450.dp)
         ) {
-            items(product?.size ?: 0) { index ->
+            items(minOf(6, product?.size ?: 0)) { index ->
                 val product = product?.get(index)
                 if (product != null) {
                     ProductItem(product = product) {
@@ -356,9 +361,6 @@ fun HomeScreenSkeleton(
                 }
             }
         }
-
-
-
 
     }
 }
@@ -374,6 +376,7 @@ fun HomeScreenSkeletonPreview() {
         navigateToProductDetails = {},
         selectedTabIndex = 0,
         onTabSelected = {},
-        products = emptyList()
+        products = emptyList(),
+        navController = rememberNavController()
     )
 }
