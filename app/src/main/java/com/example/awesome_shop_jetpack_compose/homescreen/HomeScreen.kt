@@ -2,15 +2,19 @@ package com.example.awesome_shop_jetpack_compose.homescreen
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -141,17 +145,24 @@ fun HomeScreen(
     categoryWiseProductViewModel: CategoryWiseProductViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
-    LaunchedEffect(Unit) {
-        productViewModel.getProducts()
 
-    }
     var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
     val productsResponse by productViewModel.items.observeAsState()
     val categories by categoriesViewModel.items.observeAsState()
     val products by categoryWiseProductViewModel.items.observeAsState()
 
     LaunchedEffect(Unit) {
+        productViewModel.getProducts()
+
+    }
+    LaunchedEffect(Unit) {
         categoriesViewModel.getCategories()
+    }
+
+    LaunchedEffect(categories) {
+        categories?.get(selectedTabIndex)?.let { category ->
+            categoryWiseProductViewModel.getCategoryWiseProducts(category)
+        }
     }
 
     LaunchedEffect(selectedTabIndex) {
@@ -236,7 +247,11 @@ fun HomeScreenSkeleton(
                 }
             }
         } else {
-            CircularProgressIndicator(modifier = Modifier.padding(16.dp).align(Alignment.CenterHorizontally))
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
         }
 
         Row(
@@ -247,21 +262,28 @@ fun HomeScreenSkeleton(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clickable {
-                    navController.navigate("category_screen/${tabTitle[selectedTabIndex]}") {
-                        popUpTo("home_screen") { inclusive = false }
+                modifier = Modifier
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(
+                            color = Color.Blue,
+                            radius = 24.dp
+                        )
+                    ) {
+                        navController.navigate("category_screen/${tabTitle[selectedTabIndex]}") {
+                            popUpTo("home_screen") { inclusive = false }
+                        }
                     }
-                }
+                    .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
+                    .padding(8.dp)
             ) {
                 Text(
                     text = "See All",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color.Blue,
                         fontWeight = FontWeight.Bold
-                    ),
-                    modifier = Modifier.padding(8.dp)
+                    )
                 )
-
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_forwards_24),
                     contentDescription = "Right Arrow",
@@ -288,8 +310,12 @@ fun HomeScreenSkeleton(
                     }
                 }
             }
-        }  else {
-            CircularProgressIndicator(modifier = Modifier.padding(16.dp).align(Alignment.CenterHorizontally))
+        } else {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
         }
 
 
