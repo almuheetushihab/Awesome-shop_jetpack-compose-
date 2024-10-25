@@ -16,15 +16,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.awesome_shop_jetpack_compose.categoryscreen.CategoryScreen
-import com.example.awesome_shop_jetpack_compose.homescreen.ProductListScreen
+import com.example.awesome_shop_jetpack_compose.homescreen.ProductsListScreen
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 import com.example.awesome_shop_jetpack_compose.viewmodel.CartViewModel
+import com.example.awesome_shop_jetpack_compose.viewmodel.ProductViewModel
 
 @Composable
 fun AppNavigation(context: Context) {
     val navController = rememberNavController()
     val loginViewModel = hiltViewModel<LoginViewModel>()
-    val cartViewModel = hiltViewModel<CartViewModel>()
     val sharedPreferences = SharedPreferenceHelper(context)
 
     NavHost(navController = navController, startDestination = "splash_screen") {
@@ -48,16 +48,10 @@ fun AppNavigation(context: Context) {
         composable("cart_screen") {
             CartScreen(navController)
         }
-
-        composable("all_products_screen") {
-            ProductListScreen(
-                navController = navController,
-                products = emptyList(),
-                navigateToProductDetails = { productId ->
-                    navController.navigate("product_details_screen/$productId")
-                }
-            )
+        composable("products_list_screen/{category}") {
+            ProductsListScreen(navController)
         }
+
         composable(
             "category_screen/{categoryTitle}",
             arguments = listOf(navArgument("categoryTitle") { type = NavType.StringType })

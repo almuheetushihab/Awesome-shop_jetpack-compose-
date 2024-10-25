@@ -3,6 +3,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponse
+import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseItem
 import com.example.awesome_shop_jetpack_compose.reposatories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

@@ -2,7 +2,6 @@ package com.example.awesome_shop_jetpack_compose.homescreen
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -311,6 +310,9 @@ fun HomeScreenSkeleton(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .clickable {
+                        navController.navigate("products_list_screen/${tabTitle[selectedTabIndex]}") {
+                            popUpTo("home_screen") { inclusive = false }
+                        }
                     }
             ) {
                 Text(
@@ -321,7 +323,6 @@ fun HomeScreenSkeleton(
                     ),
                     modifier = Modifier.padding(8.dp)
                 )
-
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_forwards_24),
                     contentDescription = "Right Arrow",
@@ -331,6 +332,7 @@ fun HomeScreenSkeleton(
                         .padding(start = 4.dp)
                 )
             }
+
         }
 
         LazyVerticalGrid(
