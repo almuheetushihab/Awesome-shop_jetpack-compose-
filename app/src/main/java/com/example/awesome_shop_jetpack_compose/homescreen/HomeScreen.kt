@@ -12,8 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,31 +39,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil3.compose.AsyncImage
 import com.example.awesome_shop_jetpack_compose.MainActivity
 import com.example.awesome_shop_jetpack_compose.R
-import com.example.awesome_shop_jetpack_compose.data.CategoryElectronicItems
-import com.example.awesome_shop_jetpack_compose.data.CategoryJeweleryItems
-import com.example.awesome_shop_jetpack_compose.data.CategoryMensClothingItems
-import com.example.awesome_shop_jetpack_compose.data.CategoryWomenClothingItems
-import com.example.awesome_shop_jetpack_compose.data.electronicsItems
 import com.example.awesome_shop_jetpack_compose.data.getProductResponse
-import com.example.awesome_shop_jetpack_compose.data.jeweleryItems
-import com.example.awesome_shop_jetpack_compose.data.menClothingItems
-import com.example.awesome_shop_jetpack_compose.data.womenClothingItems
 import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponse
 import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseItem
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
 import com.example.awesome_shop_jetpack_compose.viewmodel.CategoriesViewModel
 import com.example.awesome_shop_jetpack_compose.viewmodel.CategoryWiseProductViewModel
 import com.example.awesome_shop_jetpack_compose.viewmodel.ProductViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -200,6 +190,12 @@ fun HomeScreenSkeleton(
 ) {
     val context = LocalContext.current
     val activity = context as? MainActivity
+    var isLoading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        delay(2000)
+        isLoading = false
+    }
 
     BackHandler {
         Toast.makeText(
@@ -240,16 +236,13 @@ fun HomeScreenSkeleton(
                 }
             }
         } else {
-            Text(
-                text = "No categories available",
-                color = Color.Gray,
-                modifier = Modifier.padding(16.dp)
-            )
+            CircularProgressIndicator(modifier = Modifier.padding(16.dp).align(Alignment.CenterHorizontally))
         }
 
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(top = 12.dp, bottom = 10.dp),
             horizontalArrangement = Arrangement.End
         ) {
             Row(
@@ -281,7 +274,6 @@ fun HomeScreenSkeleton(
 
         }
 
-
         if (!products.isNullOrEmpty()) {
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -296,18 +288,15 @@ fun HomeScreenSkeleton(
                     }
                 }
             }
-        } else {
-            Text(
-                text = "No products available for this category",
-                modifier = Modifier.padding(16.dp),
-                color = Color.Gray
-            )
+        }  else {
+            CircularProgressIndicator(modifier = Modifier.padding(16.dp).align(Alignment.CenterHorizontally))
         }
 
 
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(

@@ -18,11 +18,17 @@ class CategoryWiseProductViewModel @Inject constructor(
     private val _items = MutableLiveData<List<ProductsResponseItem>?>()
     val items: LiveData<List<ProductsResponseItem>?> = _items
 
+    private val _isLoading = MutableLiveData(true)
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun getCategoryWiseProducts(category: String) = viewModelScope.launch {
+        _isLoading.value = true
         try {
             _items.value = categoryWiseProductRepository.getCategoryWiseProducts(category)
         } catch (e: Exception) {
             _items.value = null
+        } finally {
+            _isLoading.value = false
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,11 +46,6 @@ fun CategoryScreen(
                     .padding(padding),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-//                Text(
-//                    text = categoryTitle,
-//                    style = MaterialTheme.typography.headlineMedium,
-//                    modifier = Modifier.padding(16.dp)
-//                )
                 if (!products.isNullOrEmpty()) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -65,11 +61,7 @@ fun CategoryScreen(
                         }
                     }
                 } else {
-                    Text(
-                        text = "No products available for this category",
-                        modifier = Modifier.padding(16.dp),
-                        color = Color.Gray
-                    )
+                    CircularProgressIndicator(modifier = Modifier.padding(16.dp))
                 }
             }
         })
