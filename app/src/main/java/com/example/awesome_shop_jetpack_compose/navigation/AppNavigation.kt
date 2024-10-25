@@ -18,8 +18,6 @@ import androidx.navigation.navArgument
 import com.example.awesome_shop_jetpack_compose.categoryscreen.CategoryScreen
 import com.example.awesome_shop_jetpack_compose.homescreen.ProductsListScreen
 import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenceHelper
-import com.example.awesome_shop_jetpack_compose.viewmodel.CartViewModel
-import com.example.awesome_shop_jetpack_compose.viewmodel.ProductViewModel
 
 @Composable
 fun AppNavigation(context: Context) {

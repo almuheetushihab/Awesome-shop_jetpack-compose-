@@ -2,19 +2,14 @@ package com.example.awesome_shop_jetpack_compose.homescreen
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -38,6 +33,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -101,7 +97,6 @@ fun HomeScreenWithAppBar(navController: NavController, fullName: String) {
                             text = { Text("Cart") },
                             onClick = {
                                 menuExpanded = false
-                                Toast.makeText(context, "Cart Clicked", Toast.LENGTH_SHORT).show()
                                 navController.navigate("cart_screen") {
                                     popUpTo("home_screen") { inclusive = true }
                                 }
@@ -217,7 +212,6 @@ fun HomeScreenSkeleton(
         activity?.finish()
     }
 
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -263,26 +257,21 @@ fun HomeScreenSkeleton(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
                     .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(
-                            color = Color.Blue,
-                            radius = 24.dp
-                        )
                     ) {
                         navController.navigate("category_screen/${tabTitle[selectedTabIndex]}") {
                             popUpTo("home_screen") { inclusive = false }
                         }
                     }
-                    .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
-                    .padding(8.dp)
             ) {
                 Text(
                     text = "See All",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color.Blue,
                         fontWeight = FontWeight.Bold
-                    )
+                    ),
+                    modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 8.dp)
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_forwards_24),
@@ -293,7 +282,6 @@ fun HomeScreenSkeleton(
                         .padding(start = 4.dp)
                 )
             }
-
         }
 
         if (!products.isNullOrEmpty()) {
@@ -318,7 +306,6 @@ fun HomeScreenSkeleton(
             )
         }
 
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -332,11 +319,12 @@ fun HomeScreenSkeleton(
                 modifier = Modifier
                     .padding(end = 8.dp, bottom = 8.dp, top = 8.dp)
             )
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .clickable {
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable(
+                    ) {
                         navController.navigate("products_list_screen/${tabTitle[selectedTabIndex]}") {
                             popUpTo("home_screen") { inclusive = false }
                         }
@@ -348,7 +336,7 @@ fun HomeScreenSkeleton(
                         color = Color.Blue,
                         fontWeight = FontWeight.Bold
                     ),
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(start = 8.dp, bottom = 8.dp, top = 8.dp)
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_forwards_24),
@@ -359,27 +347,35 @@ fun HomeScreenSkeleton(
                         .padding(start = 4.dp)
                 )
             }
-
         }
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(450.dp)
+                .fillMaxSize()
         ) {
-            items(minOf(6, product?.size ?: 0)) { index ->
-                val product = product?.get(index)
-                if (product != null) {
-                    ProductItem(product = product) {
-                        navigateToProductDetails(product.id)
+            val rows = (minOf(6, product?.size ?: 0) + 1) / 2
+
+            for (i in 0 until rows) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 6.dp)
+                ) {
+                    product?.get(i * 2)?.let { product1 ->
+                        ProductItem(product = product1) {
+                            navigateToProductDetails(product1.id)
+                        }
+                    }
+
+                    product?.get(i * 2 + 1)?.let { product2 ->
+                        ProductItem(product = product2) {
+                            navigateToProductDetails(product2.id)
+                        }
                     }
                 }
             }
         }
-
     }
 }
 

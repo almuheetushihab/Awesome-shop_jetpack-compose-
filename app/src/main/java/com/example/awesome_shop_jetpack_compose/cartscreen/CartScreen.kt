@@ -87,7 +87,11 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
                     Button(
                         onClick = {
                             Toast.makeText(context, "Order Placed Successfully!", Toast.LENGTH_SHORT).show()
-                            navController.popBackStack()
+                            navController.navigate("home_screen"){
+                                popUpTo("home_screen"){
+                                    inclusive = true
+                                }
+                            }
                         },
                         modifier = Modifier.width(100.dp)
                     ) {
@@ -98,7 +102,6 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
 
                 } else {
                     CircularProgressIndicator(modifier = Modifier.padding(16.dp))
-                    Text(text = "Loading cart items...", modifier = Modifier.padding(16.dp))
                 }
             }
         }

@@ -51,7 +51,9 @@ fun CartTopAppBar(navController: NavController, title: String) {
             }
         },
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = {
+                navController.navigate("home_screen")
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "Back",
