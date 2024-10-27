@@ -30,7 +30,7 @@ import com.example.awesome_shop_jetpack_compose.sharedpreference.SharedPreferenc
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartTopAppBar(navController: NavController, title: String) {
+fun CartTopAppBar(navController: NavController, fullName: String, title: String) {
     val (expanded, setExpanded) = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val sharedPreferenceHelper = SharedPreferenceHelper(context)
@@ -52,7 +52,9 @@ fun CartTopAppBar(navController: NavController, title: String) {
         },
         navigationIcon = {
             IconButton(onClick = {
-                navController.navigate("home_screen")
+                navController.navigate("home_screen/$fullName") {
+                    popUpTo("home_screen") { inclusive = true }
+                }
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),

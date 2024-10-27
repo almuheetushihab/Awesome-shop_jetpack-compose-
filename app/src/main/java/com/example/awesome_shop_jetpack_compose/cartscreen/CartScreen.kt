@@ -45,7 +45,7 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
 
     Scaffold(
         topBar = {
-            CartTopAppBar(navController, title = "Cart")
+            CartTopAppBar(navController, fullName = "", title = "Cart")
         },
         content = { padding ->
             Column(
