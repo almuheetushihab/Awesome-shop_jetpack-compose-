@@ -44,7 +44,7 @@ fun AppNavigation(context: Context) {
             ProductDetailsScreen(navController, productId.toString())
         }
         composable("cart_screen") {
-            CartScreen(navController)
+            CartScreen(navController, fullName = "")
         }
         composable("products_list_screen/{category}") {
             ProductsListScreen(navController)

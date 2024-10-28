@@ -25,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.awesome_shop_jetpack_compose.customappber.CartTopAppBar
-import com.example.awesome_shop_jetpack_compose.customappber.CustomAppBar
 import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseItem
 import com.example.awesome_shop_jetpack_compose.viewmodel.CartViewModel
 

@@ -258,8 +258,7 @@ fun HomeScreenSkeleton(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable(
-                    ) {
+                    .clickable {
                         navController.navigate("category_screen/${tabTitle[selectedTabIndex]}") {
                             popUpTo("home_screen") { inclusive = false }
                         }
@@ -323,8 +322,7 @@ fun HomeScreenSkeleton(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable(
-                    ) {
+                    .clickable {
                         navController.navigate("products_list_screen/${tabTitle[selectedTabIndex]}") {
                             popUpTo("home_screen") { inclusive = false }
                         }
