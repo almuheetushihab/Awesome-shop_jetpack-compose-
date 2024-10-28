@@ -30,7 +30,7 @@ import com.example.awesome_shop_jetpack_compose.models.product.ProductsResponseI
 import com.example.awesome_shop_jetpack_compose.viewmodel.CartViewModel
 
 @Composable
-fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hiltViewModel()) {
+fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hiltViewModel(),fullName: String) {
     val cartItems by cartViewModel.items.observeAsState(emptyList())
     val context = LocalContext.current
     var totalPrice by remember { mutableStateOf(0.0) }
@@ -86,12 +86,16 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
 
                     Button(
                         onClick = {
-                            Toast.makeText(context, "Order Placed Successfully!", Toast.LENGTH_SHORT).show()
-                            navController.navigate("home_screen"){
-                                popUpTo("home_screen"){
-                                    inclusive = true
-                                }
+
+                            navController.navigate("home_screen/$fullName") {
+                                popUpTo("home_screen") { inclusive = true }
                             }
+
+                            Toast.makeText(
+                                context,
+                                "Order Placed Successfully!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         },
                         modifier = Modifier.width(100.dp)
                     ) {
@@ -258,6 +262,6 @@ fun CartItemCard(product: ProductsResponseItem, onQuantityChange: (Int) -> Unit)
 @Preview(showBackground = true)
 @Composable
 fun CartScreenPreview() {
-    CartScreen(navController = rememberNavController())
+    CartScreen(navController = rememberNavController(), fullName = "")
 }
 
