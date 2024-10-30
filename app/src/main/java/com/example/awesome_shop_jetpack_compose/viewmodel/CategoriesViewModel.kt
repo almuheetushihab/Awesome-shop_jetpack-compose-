@@ -7,6 +7,7 @@ import com.example.awesome_shop_jetpack_compose.reposatories.CategoriesRepositor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(private val categoriesRepository: CategoriesRepository) : ViewModel() {
     private val _items: MutableLiveData<List<String>> by lazy {

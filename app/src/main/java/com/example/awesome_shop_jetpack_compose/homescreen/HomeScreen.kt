@@ -199,14 +199,14 @@ fun HomeScreenSkeleton(
     var isLoading by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        delay(2000)
+        delay(2030)
         isLoading = false
     }
 
     BackHandler {
         Toast.makeText(
             context,
-            "Exiting the app...",
+            "Exiting the app....",
             Toast.LENGTH_SHORT
         ).show()
         activity?.finish()
