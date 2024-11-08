@@ -199,7 +199,7 @@ fun HomeScreenSkeleton(
     var isLoading by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        delay(3000)
+        delay(2000)
         isLoading = false
     }
 
