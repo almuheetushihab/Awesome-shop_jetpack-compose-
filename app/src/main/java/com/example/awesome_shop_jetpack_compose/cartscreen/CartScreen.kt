@@ -96,7 +96,7 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel = hilt
                                 Toast.LENGTH_SHORT
                             ).show()
                         },
-                        modifier = Modifier.width(100.dp)
+                        modifier = Modifier.width(120.dp)
                     ) {
                         Text(text = "Order", fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }
