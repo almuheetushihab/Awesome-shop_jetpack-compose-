@@ -37,7 +37,7 @@ fun PracticeJetpackCompose() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .padding(16.dp)
+                    .padding(20.dp)
                     .background(MaterialTheme.colorScheme.surfaceContainer),
                 contentAlignment = Alignment.Center
             ) {
