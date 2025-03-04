@@ -15,15 +15,28 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.time.delay
 
 @Composable
 fun PracticeJetpackCompose() {
     val pagerState = rememberPagerState(pageCount = { 5 })
+
+    LaunchedEffect(pagerState.currentPage) {
+        while (true) {
+            delay(2000L) // 2 seconds delay
+            val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(nextPage)
+            }
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
