@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.time.delay
+import kotlinx.coroutines.delay
 
 @Composable
 fun PracticeJetpackCompose() {
@@ -29,14 +29,11 @@ fun PracticeJetpackCompose() {
 
     LaunchedEffect(pagerState.currentPage) {
         while (true) {
-            delay(2000L) // 2 seconds delay
+            delay(2000L)
             val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
-            coroutineScope.launch {
-                pagerState.animateScrollToPage(nextPage)
-            }
+            pagerState.animateScrollToPage(nextPage)
         }
     }
-
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -46,7 +43,7 @@ fun PracticeJetpackCompose() {
             state = pagerState,
             modifier = Modifier.weight(1f)
         ) { pageIndex ->
-            Box(
+             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
@@ -54,6 +51,12 @@ fun PracticeJetpackCompose() {
                     .background(MaterialTheme.colorScheme.surfaceContainer),
                 contentAlignment = Alignment.Center
             ) {
+                Text(
+                    text = "Page $pageIndex",
+                    style = MaterialTheme.typography.headlineLarge,
+                    textAlign = TextAlign.Center
+                )
+
                 Text(
                     text = "Page $pageIndex",
                     style = MaterialTheme.typography.headlineLarge,
