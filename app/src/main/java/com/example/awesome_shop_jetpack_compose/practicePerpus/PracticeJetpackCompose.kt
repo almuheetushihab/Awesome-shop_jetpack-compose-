@@ -56,12 +56,6 @@ fun PracticeJetpackCompose() {
                     style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center
                 )
-
-                Text(
-                    text = "Page $pageIndex",
-                    style = MaterialTheme.typography.headlineLarge,
-                    textAlign = TextAlign.Center
-                )
             }
         }
 
