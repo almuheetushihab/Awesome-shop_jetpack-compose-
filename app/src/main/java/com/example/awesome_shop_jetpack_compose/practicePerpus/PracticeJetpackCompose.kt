@@ -53,7 +53,7 @@ fun PracticeJetpackCompose() {
             ) {
                 Text(
                     text = "Pager go$pageIndex",
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.headlineMedium,
                     textAlign = TextAlign.Center
                 )
             }
