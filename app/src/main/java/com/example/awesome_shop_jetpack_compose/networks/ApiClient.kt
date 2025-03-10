@@ -12,3 +12,10 @@ object ApiClient {
             .build()
     }
 }
+object ApiClients {
+    fun getInstance(): Retrofit{
+        return Retrofit.Builder().baseUrl(Constants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+}
